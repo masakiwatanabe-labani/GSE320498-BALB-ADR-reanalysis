@@ -1,5 +1,7 @@
 # GSE320498 RNA-seq re-analysis: BALB/cAJcl (A) vs BALB/cByJcl (B) adriamycin nephropathy
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21128267.svg)](https://doi.org/10.5281/zenodo.21128267)
+
 Re-analysis of the deposited gene-level count matrices to address reviewer comments
 R1-5, R1-6, R1-7, R2-2, R2-4. All numbers in this document and in `outputs/tables/`
 and `outputs/figures/` are the direct, unedited output of the scripts in

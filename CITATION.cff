@@ -52,6 +52,14 @@ authors:
     email: nobsasa@vmas.kitasato-u.ac.jp
 repository-code: >-
   https://github.com/masakiwatanabe-labani/GSE320498-BALB-ADR-reanalysis
+doi: 10.5281/zenodo.21128267
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.21128267
+    description: Concept DOI representing all versions; always resolves to the latest release.
+  - type: doi
+    value: 10.5281/zenodo.21128268
+    description: Version-specific DOI for v1.0.0.
 keywords:
   - adriamycin nephropathy
   - BALB/c substrain
