@@ -1,0 +1,68 @@
+cff-version: 1.2.0
+message: >-
+  If you use this re-analysis code, methods, or supplementary data, please
+  cite it as below. Please also cite the primary manuscript once published
+  and the original GEO deposition (GSE320498).
+type: software
+title: >-
+  GSE320498 BALB/c Adriamycin Nephropathy Substrain Re-analysis:
+  Reviewer-Response Supplementary Code
+abstract: >-
+  DESeq2 v1.38.3 + fgsea v1.24.0 re-analysis of GSE320498 (glomerulus-enriched
+  RNA-seq, BALB/cAJcl vs BALB/cByJcl adriamycin nephropathy substrain
+  comparison), prepared in response to peer review. Includes a corrected GSEA
+  ranking-metric methodology, Fig. 6B/C/D replacement enrichment figures, an
+  independently sourced podocyte marker gene set (Karaiskos et al. 2018,
+  GSE111107) with full extraction provenance, and a verification that the
+  manuscript's original DE method (edgeR classic exactTest) and this
+  revision's method (DESeq2) agree on every reported conclusion.
+authors:
+  - given-names: Ryuya
+    family-names: Nakagawa
+    affiliation: >-
+      Laboratory of Laboratory Animal Science and Medicine, School of
+      Veterinary Medicine, Kitasato University, Towada, Aomori, Japan
+  - given-names: Masaki
+    family-names: Watanabe
+    affiliation: >-
+      Laboratory of Laboratory Animal Science and Medicine, School of
+      Veterinary Medicine, Kitasato University, Towada, Aomori, Japan
+    alias: masakiwatanabe-labani
+  - given-names: Koyuki
+    family-names: Kawamoto
+    affiliation: >-
+      Laboratory of Laboratory Animal Science and Medicine, School of
+      Veterinary Medicine, Kitasato University, Towada, Aomori, Japan
+  - given-names: Momoka
+    family-names: Hiratsuka
+    affiliation: >-
+      Laboratory of Laboratory Animal Science and Medicine, School of
+      Veterinary Medicine, Kitasato University, Towada, Aomori, Japan
+  - given-names: Takeru
+    family-names: Sasaki
+    affiliation: >-
+      Laboratory of Laboratory Animal Science and Medicine, School of
+      Veterinary Medicine, Kitasato University, Towada, Aomori, Japan
+  - given-names: Nobuya
+    family-names: Sasaki
+    affiliation: >-
+      Laboratory of Laboratory Animal Science and Medicine, School of
+      Veterinary Medicine, Kitasato University, Towada, Aomori, Japan
+    orcid: 'https://orcid.org/0000-0002-7971-3024'
+    email: nobsasa@vmas.kitasato-u.ac.jp
+repository-code: >-
+  https://github.com/masakiwatanabe-labani/GSE320498-BALB-ADR-reanalysis
+keywords:
+  - adriamycin nephropathy
+  - BALB/c substrain
+  - podocyte
+  - RNA-seq
+  - DESeq2
+  - GSEA
+  - GSE320498
+license: MIT
+# NOTE: license set to MIT as a placeholder pending author confirmation --
+# update before making the repository/Zenodo record public if a different
+# license (e.g. CC-BY-4.0) is preferred for a data/analysis-heavy repository.
+version: 1.0.0
+date-released: '2026-07-02'

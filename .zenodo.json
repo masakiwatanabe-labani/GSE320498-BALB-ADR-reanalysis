@@ -1,0 +1,53 @@
+{
+  "title": "GSE320498 BALB/c Adriamycin Nephropathy Substrain Re-analysis: Reviewer-Response Supplementary Code",
+  "description": "<p>DESeq2 v1.38.3 + fgsea v1.24.0 re-analysis of GSE320498 (glomerulus-enriched RNA-seq, BALB/cAJcl vs BALB/cByJcl adriamycin nephropathy substrain comparison), prepared in response to peer review.</p><p>Includes: a corrected GSEA ranking-metric methodology (DESeq2 Wald statistic, matching the significance-weighted ranking implied by the manuscript's reported FDR values); Fig. 6B/C/D replacement enrichment figures generated directly from the canonical fgsea run; an independently sourced podocyte marker gene set (Karaiskos et al. 2018 J Am Soc Nephrol 29:2060-2068, GSE111107) with full extraction provenance and a gene-set-membership overlap accounting; and a verification that the manuscript's likely original differential-expression method (edgeR classic <code>exactTest()</code>) and this revision's method (DESeq2) agree on every reported conclusion (log2FC Pearson r &ge; 0.9998 in every comparison; all named genes and all focal GSEA gene sets concordant in direction and significance).</p><p>See README_analysis_log.md for the full analysis log, correspondence table (review comment -&gt; output), and 9 key findings. License and access right are placeholders pending author confirmation.</p>",
+  "creators": [
+    {
+      "name": "Nakagawa, Ryuya",
+      "affiliation": "Laboratory of Laboratory Animal Science and Medicine, School of Veterinary Medicine, Kitasato University, Towada, Aomori, Japan"
+    },
+    {
+      "name": "Watanabe, Masaki",
+      "affiliation": "Laboratory of Laboratory Animal Science and Medicine, School of Veterinary Medicine, Kitasato University, Towada, Aomori, Japan"
+    },
+    {
+      "name": "Kawamoto, Koyuki",
+      "affiliation": "Laboratory of Laboratory Animal Science and Medicine, School of Veterinary Medicine, Kitasato University, Towada, Aomori, Japan"
+    },
+    {
+      "name": "Hiratsuka, Momoka",
+      "affiliation": "Laboratory of Laboratory Animal Science and Medicine, School of Veterinary Medicine, Kitasato University, Towada, Aomori, Japan"
+    },
+    {
+      "name": "Sasaki, Takeru",
+      "affiliation": "Laboratory of Laboratory Animal Science and Medicine, School of Veterinary Medicine, Kitasato University, Towada, Aomori, Japan"
+    },
+    {
+      "name": "Sasaki, Nobuya",
+      "affiliation": "Laboratory of Laboratory Animal Science and Medicine, School of Veterinary Medicine, Kitasato University, Towada, Aomori, Japan",
+      "orcid": "0000-0002-7971-3024"
+    }
+  ],
+  "keywords": [
+    "adriamycin nephropathy",
+    "BALB/c substrain",
+    "podocyte",
+    "RNA-seq",
+    "DESeq2",
+    "fgsea",
+    "GSEA",
+    "GSE320498",
+    "reproducibility"
+  ],
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "mit",
+  "related_identifiers": [
+    {
+      "identifier": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE320498",
+      "relation": "isDerivedFrom",
+      "resource_type": "dataset",
+      "scheme": "url"
+    }
+  ]
+}
