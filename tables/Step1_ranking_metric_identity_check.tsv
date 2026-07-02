@@ -1,0 +1,5 @@
+comparison	n_genes	spearman_rho
+baseline_B_vs_A	19659	1
+ADR_B_vs_A	19659	1
+A_ADR_vs_Ctrl	19659	1
+B_ADR_vs_Ctrl	19659	1

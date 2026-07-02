@@ -1,0 +1,6 @@
+ADR_B_vs_A leading-edge (ageing set, n=67): Tagln2,Lgals1,Bst2,Tnfrsf12a,S100a10,Cp,H2-Ab1,2200002D01Rik,Ly6a,B2m,H2-D1,Mgat4b,H2-K1,Picalm,Cstb,H2-Aa,Bax,Nme1,Rplp0,Phlda3,Cxcl16,Eif6,Rpl12,H2-Eb1,Ly6e,Rps2,Cd74,Lgals3bp,Timm13,Gas5,Itgav,Atox1,Uap1l1,Rpl23,Rpl39,Rpl36a,Rplp2,Rps19,Rpl41,Rps28,Rps18,Rbis,Ccnd1,Rpsa,Ctsz,Cotl1,Rack1,Myof,Rpl38,Rpl27,Psmg4,Krtcap2,Rpl32,Rps17,Ccng1,Nhp2,Rps15a,Bola2,Rps27l,Ftl1,Cd63,1110038B12Rik,H2aj,Rps16,Apoe,Tmem258,Sh3bgrl3
+ADR_B_vs_A leading-edge (Karaiskos TOP50, n=26): Thsd7a,Pard3b,Robo2,Sema3g,Tmem150c,Tdrd5,Wt1,Arhgap24,Synpo,Pth1r,Nphs1,Vegfa,Gas1,Mafb,Enpep,Pak1,Nphs2,Iqgap2,Podxl,Foxd2os,Shisa3,Npnt,Dpp4,Tcf21,Cd59a,Golim4
+ADR_B_vs_A shared leading-edge genes (n=0): 
+B_ADR_vs_Ctrl leading-edge (ageing set, n=45): Ccng1,Phlda3,Tnfrsf12a,Ly6a,Lgals1,2200002D01Rik,Bax,Rps27l,Tagln2,H2-K1,Cp,Ly6e,H2-D1,Bst2,Nme1,B2m,Picalm,H2aj,Myof,S100a10,Cstb,Rps19,Mgst1,Eny2,Itgav,Eif6,Rplp0,Lgals3bp,Cd63,Uap1l1,Rps2,Rbis,Esd,Rpl23,Gas5,Mif,Tmbim4,Nhp2,Mgat4b,Rpl36a,Rpl39,Rpl12,Rpl41,Hint1,Timm13
+B_ADR_vs_Ctrl leading-edge (Karaiskos TOP50, n=34): Sema3g,Thsd7a,Pard3b,Vegfa,Mafb,Pak1,Pth1r,Synpo,Tmem150c,Arhgap24,Enpep,Tdrd5,Nphs2,Gas1,Nphs1,Podxl,Iqgap2,Wt1,Foxd2os,Cd59a,Robo2,Tcf21,Col4a3,Nap1l1,Shisa3,Rasl11a,Ildr2,Npnt,Hoxc8,Dpp4,Rhpn1,Rab3b,Golim4,Clic3
+B_ADR_vs_Ctrl shared leading-edge genes (n=0): 

@@ -1,0 +1,19 @@
+=== Step 3: cross-substrain ADR-response comparison (A_ADR_vs_Ctrl vs B_ADR_vs_Ctrl) ===
+Genes compared (non-NA log2FC in both): 19662
+Pearson r = 0.535 (95% CI 0.525-0.545), p = 0.000e+00
+Spearman rho = 0.425, p = 0.000e+00
+OLS regression: B_response = 0.199 + 0.624 * A_response, R2 = 0.287, slope p = 0.000e+00
+Genes significant (padj<0.05) in A_ADR_vs_Ctrl (n=2 vs 3): 298
+Genes significant (padj<0.05) in B_ADR_vs_Ctrl (n=3 vs 3): 2674
+Genes significant in BOTH: 257
+Genes significant in EITHER: 2715
+% direction-concordant among ALL compared genes: 62.8%
+% direction-concordant among genes significant in EITHER comparison: 87.0%
+% direction-concordant among genes significant in BOTH comparisons: 99.6%
+Interaction term (substrain:treatment): 24 / 19662 genes with padj<0.05
+
+Interpretation caveat: A_ADR_vs_Ctrl (n=2 vs 3, A-ADR1 excluded) has less statistical power
+than B_ADR_vs_Ctrl (n=3 vs 3), so the much larger number of significant genes in B is expected
+to partly reflect power asymmetry, not necessarily a larger true biological response.
+The genome-wide correlation/regression and the interaction-term test are the appropriate
+summaries for 'does response differ between substrains', rather than simply counting DE genes.

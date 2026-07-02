@@ -1,0 +1,9 @@
+fgsea package version: 1.24.0
+msigdbr package version: 26.1.0
+DESeq2 package version: 1.38.3
+MSigDB db_version (mouse-native, db_species=MM): 2026.1.Mm
+Reactome gene sets (M2:CP:REACTOME): 1333
+Custom podocyte sets added: TABULA_MURIS_SENIS_KIDNEY_PODOCYTE_AGEING, KARAISKOS2018_PODOCYTE_EXCLUSIVE, KARAISKOS2018_PODOCYTE_TOP50
+Total joint universe per comparison: 1336 gene sets
+Ranking metric (CANONICAL): DESeq2 Wald 'stat' column.
+Random seed: 20260220 (reset immediately before every fgsea() call).

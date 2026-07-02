@@ -1,0 +1,9 @@
+fgsea package version: 1.24.0
+msigdbr package version: 26.1.0
+MSigDB db_version (mouse-native, db_species=MM): 2026.1.Mm
+Reactome gene sets tested (M2:CP:REACTOME): 1333
+Podocyte gene set (M8 TABULA_MURIS_SENIS_KIDNEY_PODOCYTE_AGEING) size in current MSigDB release: 196 genes
+Original manuscript reported gene set size = 192 for this same named gene set (Fig. 6B legend); current release differs (see note above) -- MSigDB periodically revises gene set membership between releases.
+Total gene sets in joint preranked test: 1334
+Ranking metric: DESeq2 Wald 'stat' (signed test statistic) from each comparison's main-dataset DE table.
+Random seed: 20260220 (fixed for fgsea's permutation/multilevel estimation, for reproducibility).

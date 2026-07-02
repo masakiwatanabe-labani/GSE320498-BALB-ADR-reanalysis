@@ -1,0 +1,14 @@
+=== main (n=11) ===
+Samples:  A-Ctrl1, A-Ctrl2, A-Ctrl3, B-Ctrl1, B-Ctrl2, B-Ctrl3, A-ADR2, A-ADR3, B-ADR1, B-ADR2, B-ADR3 
+Genes after prefilter (rowSums>=10), group design:  19662 
+Genes after prefilter (rowSums>=10), interaction design:  19662 
+resultsNames (group):  Intercept, group_B_Ctrl_vs_A_Ctrl, group_A_ADR_vs_A_Ctrl, group_B_ADR_vs_A_Ctrl 
+resultsNames (interaction):  Intercept, substrain_B_vs_A, treatment_ADR_vs_Ctrl, substrainB.treatmentADR 
+
+=== sens (n=12) ===
+Samples:  A-Ctrl1, A-Ctrl2, A-Ctrl3, B-Ctrl1, B-Ctrl2, B-Ctrl3, A-ADR1, A-ADR2, A-ADR3, B-ADR1, B-ADR2, B-ADR3 
+Genes after prefilter (rowSums>=10), group design:  19802 
+Genes after prefilter (rowSums>=10), interaction design:  19802 
+resultsNames (group):  Intercept, group_B_Ctrl_vs_A_Ctrl, group_A_ADR_vs_A_Ctrl, group_B_ADR_vs_A_Ctrl 
+resultsNames (interaction):  Intercept, substrain_B_vs_A, treatment_ADR_vs_Ctrl, substrainB.treatmentADR 
+

@@ -1,0 +1,5 @@
+comparison	n_sig_A1_excluded_main	n_sig_A1_included_sens
+baseline_B_vs_A	103	68
+ADR_B_vs_A	546	935
+A_ADR_vs_Ctrl	298	319
+interaction_substrainxtreatment	22	7

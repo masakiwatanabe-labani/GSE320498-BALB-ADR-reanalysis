@@ -1,0 +1,47 @@
+=== Step 0 QC report ===
+BL file dim: 26264 genes x 7 cols; colnames: Geneid, A-Ctrl1, A-Ctrl2, A-Ctrl3, B-Ctrl1, B-Ctrl2, B-Ctrl3
+ADR file dim: 26264 genes x 7 cols; colnames: Geneid, A-ADR1, A-ADR2, A-ADR3, B-ADR1, B-ADR2, B-ADR3
+Duplicate Geneid count in BL file: 0
+Duplicate Geneid count in ADR file: 0
+Geneids only in BL file (not in ADR): 0
+Geneids only in ADR file (not in BL): 0
+Merged dim (inner join): 26264 genes x 13 cols
+Total NA cells in merged matrix: 0
+Final column order: Geneid, A-Ctrl1, A-Ctrl2, A-Ctrl3, B-Ctrl1, B-Ctrl2, B-Ctrl3, A-ADR1, A-ADR2, A-ADR3, B-ADR1, B-ADR2, B-ADR3
+Final dim: 26264 genes x 12 samples
+All count columns numeric: TRUE
+Any negative counts: FALSE
+Library sizes (colSums):
+  A-Ctrl1: 42,198,416
+  A-Ctrl2: 47,710,384
+  A-Ctrl3: 47,880,096
+  B-Ctrl1: 47,918,394
+  B-Ctrl2: 49,323,901
+  B-Ctrl3: 54,687,045
+  A-ADR1: 46,267,840
+  A-ADR2: 44,832,125
+  A-ADR3: 47,513,846
+  B-ADR1: 44,712,395
+  B-ADR2: 43,835,070
+  B-ADR3: 46,316,543
+Genes with 0 counts across all 12 samples: 4021
+
+=== Purity marker CPM check (for identifying sample A1) ===
+Podocyte marker CPM (A-ADR1/2/3, B-ADR1/2/3):
+  Nes: A-Ctrl1=1349.4, A-Ctrl2=1576.2, A-Ctrl3=1405, B-Ctrl1=1436.4, B-Ctrl2=1445.6, B-Ctrl3=1620.4, A-ADR1=1090.2, A-ADR2=1223.2, A-ADR3=1741.1, B-ADR1=2248.7, B-ADR2=2076.5, B-ADR3=1916.2
+  Nphs1: A-Ctrl1=1124.2, A-Ctrl2=1639.6, A-Ctrl3=1224.7, B-Ctrl1=1568.2, B-Ctrl2=1387.5, B-Ctrl3=1591, A-ADR1=778.5, A-ADR2=1343.1, A-ADR3=940.1, B-ADR1=892.7, B-ADR2=491.2, B-ADR3=551.7
+  Nphs2: A-Ctrl1=3102.4, A-Ctrl2=3935.5, A-Ctrl3=3023.6, B-Ctrl1=4264.2, B-Ctrl2=3356.5, B-Ctrl3=3481.6, A-ADR1=2099.5, A-ADR2=2749.1, A-ADR3=1777.8, B-ADR1=1968.3, B-ADR2=947.9, B-ADR3=1241
+  Podxl: A-Ctrl1=6376.4, A-Ctrl2=8383, A-Ctrl3=7004.4, B-Ctrl1=8673.9, B-Ctrl2=7443.6, B-Ctrl3=8340.5, A-ADR1=3966.6, A-ADR2=6678.1, A-ADR3=5276, B-ADR1=5277, B-ADR2=3753.7, B-ADR3=4333.9
+  Synpo: A-Ctrl1=2157, A-Ctrl2=3070.4, A-Ctrl3=2617.3, B-Ctrl1=3006.6, B-Ctrl2=2939.5, B-Ctrl3=2848.3, A-ADR1=1131.5, A-ADR2=2154.5, A-ADR3=1342.3, B-ADR1=1268.4, B-ADR2=917.9, B-ADR3=935.5
+  Wt1: A-Ctrl1=412.1, A-Ctrl2=531.1, A-Ctrl3=408.4, B-Ctrl1=494.2, B-Ctrl2=445.7, B-Ctrl3=509, A-ADR1=310.2, A-ADR2=498, A-ADR3=289.5, B-ADR1=272.1, B-ADR2=212, B-ADR3=217.7
+Tubular marker CPM (A-ADR1/2/3, B-ADR1/2/3):
+  Aqp1: A-Ctrl1=136.3, A-Ctrl2=90.3, A-Ctrl3=239.2, B-Ctrl1=63.9, B-Ctrl2=139.5, B-Ctrl3=122.1, A-ADR1=288, A-ADR2=152.1, A-ADR3=142.2, B-ADR1=99.6, B-ADR2=96.2, B-ADR3=170
+  Aqp2: A-Ctrl1=56.1, A-Ctrl2=19.7, A-Ctrl3=90.8, B-Ctrl1=6.1, B-Ctrl2=41.9, B-Ctrl3=38.7, A-ADR1=102.6, A-ADR2=33.5, A-ADR3=16.9, B-ADR1=2.7, B-ADR2=13.7, B-ADR3=13.2
+  Lrp2: A-Ctrl1=178.2, A-Ctrl2=155.4, A-Ctrl3=646.9, B-Ctrl1=62.3, B-Ctrl2=348.5, B-Ctrl3=266.1, A-ADR1=306.5, A-ADR2=338.9, A-ADR3=236.9, B-ADR1=39.2, B-ADR2=131.2, B-ADR3=279.1
+  Slc12a1: A-Ctrl1=155.3, A-Ctrl2=90.5, A-Ctrl3=231.1, B-Ctrl1=36.9, B-Ctrl2=63.3, B-Ctrl3=81.1, A-ADR1=305.2, A-ADR2=226.2, A-ADR3=158, B-ADR1=27.8, B-ADR2=151.4, B-ADR3=70.8
+  Slc34a1: A-Ctrl1=743.3, A-Ctrl2=351.9, A-Ctrl3=1402.7, B-Ctrl1=134.9, B-Ctrl2=584.8, B-Ctrl3=499, A-ADR1=1658.2, A-ADR2=726.7, A-ADR3=511.7, B-ADR1=114, B-ADR2=222.3, B-ADR3=531.3
+  Umod: A-Ctrl1=434.5, A-Ctrl2=289.5, A-Ctrl3=873.2, B-Ctrl1=80.3, B-Ctrl2=245.7, B-Ctrl3=342.2, A-ADR1=1079, A-ADR2=558.2, A-ADR3=427.4, B-ADR1=55.3, B-ADR2=285.1, B-ADR3=223.7
+
+Summed podocyte-marker CPM per ADR sample: A-ADR1=9376.5, A-ADR2=14646, A-ADR3=11366.8, B-ADR1=11927.2, B-ADR2=8399.3, B-ADR3=9196
+Summed tubular-marker CPM per ADR sample: A-ADR1=3739.5, A-ADR2=2035.5, A-ADR3=1493, B-ADR1=338.7, B-ADR2=899.9, B-ADR3=1288.2
+Podocyte:Tubular marker ratio per ADR sample: A-ADR1=2.51, A-ADR2=7.2, A-ADR3=7.61, B-ADR1=35.22, B-ADR2=9.33, B-ADR3=7.14
