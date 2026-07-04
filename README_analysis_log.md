@@ -1,7 +1,5 @@
 # GSE320498 RNA-seq re-analysis: BALB/cAJcl (A) vs BALB/cByJcl (B) adriamycin nephropathy
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21128267.svg)](https://doi.org/10.5281/zenodo.21128267)
-
 Re-analysis of the deposited gene-level count matrices to address reviewer comments
 R1-5, R1-6, R1-7, R2-2, R2-4. All numbers in this document and in `outputs/tables/`
 and `outputs/figures/` are the direct, unedited output of the scripts in
@@ -55,6 +53,34 @@ flip with A1 inclusion/exclusion (Fig. 6B / "data not shown" sentence), which th
 log2FC-primary framing had appeared to resolve, is **back and confirmed real**
 under the canonical ranking. Both changes are reported in full below.
 
+**A second, independent methodological correction: the DE tool and
+enrichment method themselves.** Investigation of the shared analysis server
+this project's count matrices were most likely generated on (a commercial
+turnkey pipeline, "Amelieff Quick Start Package" — see
+`Methods_rewrite_and_reviewer_response_notes.md`) found that its standard,
+unmodified two-group-comparison step uses **edgeR classic `exactTest()`**
+for differential expression and **ReactomePA `enrichPathway()`
+(over-representation analysis, ORA)** for pathway enrichment — not DESeq2
+and not preranked GSEA. This is the most likely original method behind the
+manuscript's Fig. 5/6 numbers, even though the manuscript's own Methods text
+names DESeq2 and preranked GSEA. For this revision, **we standardized on
+DESeq2 v1.38.3 (differential expression) and `fgsea` v1.24.0 (preranked
+GSEA)** going forward, matching what the manuscript states, rather than
+reproducing edgeR/ReactomePA-ORA exactly. Because this is a real change of
+statistical engine, not just a ranking-metric detail, it was verified
+independently before being adopted: `15_edgeR_vs_DESeq2_reproducibility.R`
+reruns edgeR's exact original call sequence on the same counts and confirms
+that **no conclusion behind Fig. 5/6 changes** between the two engines
+(log2FC Pearson r ≥ 0.9998 in every comparison; every named gene and every
+focal GSEA gene set keeps the same direction and significance call under
+both tools — full write-up in `edgeR_vs_DESeq2_verification.md`). The
+enrichment-method swap (ORA -> preranked GSEA) was not separately
+re-verified against ORA, since the manuscript's own Fig. 6B/6D numbers
+(NES, not enrichment odds ratios) already presuppose GSEA was used for
+those two panels; Fig. 6C's ECM/collagen claim, which reads more like an
+ORA-style result, is addressed via the independent preranked-GSEA
+confirmation in Key finding 5 above instead.
+
 ## Reproducibility
 
 - Scripts `00`-`06`, `09` (canonical, `stat`-ranked) plus `07`-`08` (log2FC,
@@ -104,10 +130,10 @@ under the canonical ranking. Both changes are reported in full below.
 
 | Review # | Ask | Script(s) | Output(s) | Result summary |
 |---|---|---|---|---|
-| R1-5 (contrast clarity) | State which contrast/sign is plotted | `02_DE_tables.R`, `03_volcano_plots.R` | `Supplementary_DE_tables.xlsx`, `figures/volcano_*.png` | Sign convention stated in every table caption and every plot title |
-| R1-5 (Tmem215/Nlrp1b/Glp1r) | Describe/report these genes | `02_DE_tables.R` | `DE_baseline_B_vs_A.tsv`, `DE_ADR_B_vs_A.tsv` | All 3 highly significant at baseline (Tmem215 padj=5.2e-18, Glp1r padj=1.3e-15, Nlrp1b padj=3.5e-6); Tmem215 remains significant Day-5 ADR (padj=1.7e-9). Gene-level DESeq2 result, unaffected by ranking-metric choice |
-| R1-5 (Wt1/Nphs1 verifiable) | Label on volcano so readers can check "no robust change" | `03_volcano_plots.R` | `figures/volcano_*.png` | Baseline: both n.s. (padj=0.87, 0.79), confirming manuscript claim. **Day-5 ADR: Wt1 padj=0.050 (borderline), Nphs1 padj=0.064 (n.s.) — weaker than "not robust" implies; report as borderline, not absent.** Gene-level, unaffected by ranking-metric choice |
-| R1-5 (baseline->ADR comparison per substrain) | Compare disease response, direction/strength concordance | `02_DE_tables.R`, `04_interaction_and_crosscomparison.R` | `DE_A_ADR_vs_Ctrl.tsv`, `DE_B_ADR_vs_Ctrl.tsv`, `DE_interaction_substrain_by_treatment.tsv`, `crosscomparison_ADR_response_scatter.png` | Genome-wide response correlated between substrains (Pearson r=0.535, p~0; 99.6% direction-concordant among genes significant in both). Only 24/19662 genes show significant substrain:treatment interaction. **Caveat: A tested with less power (n=2) than B (n=3, A-ADR1 excluded) — B's larger DEG count partly reflects this** |
+| R1-5 (contrast clarity) | State which contrast/sign is plotted | `02_DE_tables.R`, `03_volcano_plots.R`, `16_R1-5_final_deliverables.R` | `TableS_DE_all_comparisons.xlsx`, `figures/Fig5_volcano_baseline.pdf`, `figures/Fig6A_volcano_D5.pdf` | Sign convention stated in every table caption and every plot title; final volcanoes additionally print exact log2FC/FDR on each labeled gene, not only in the caption |
+| R1-5 (Tmem215/Nlrp1b/Glp1r) | Describe/report these genes | `02_DE_tables.R`, `16_R1-5_final_deliverables.R` | `DE_baseline_B_vs_A.tsv`, `DE_ADR_B_vs_A.tsv`, `TableS_top_baseline_genes.csv` | All 3 highly significant at baseline (Tmem215 padj=5.2e-18, Glp1r padj=1.3e-15, Nlrp1b padj=3.5e-6); Tmem215 remains significant Day-5 ADR (padj=1.25e-11). Gene-level DESeq2 result, unaffected by ranking-metric choice. `TableS_top_baseline_genes.csv` lists all 64 genes at padj<0.05 & \|log2FC\|>1, replacing "modest" with an explicit count |
+| R1-5 (Wt1/Nphs1 verifiable) | Label on volcano so readers can check "no robust change" | `03_volcano_plots.R`, `16_R1-5_final_deliverables.R` | `figures/Fig5_volcano_baseline.pdf`, `figures/Fig6A_volcano_D5.pdf` | Baseline: both n.s. (padj=0.87, 0.79), confirming manuscript claim. **Day-5 ADR: Wt1 padj=0.050 (borderline), Nphs1 padj=0.064 (n.s.) — weaker than "not robust" implies; report as borderline, not absent.** Gene-level, unaffected by ranking-metric choice |
+| R1-5 (baseline->ADR comparison per substrain) | Compare disease response, direction/strength concordance | `02_DE_tables.R`, `04_interaction_and_crosscomparison.R`, `16_R1-5_final_deliverables.R` | `DE_A_ADR_vs_Ctrl.tsv`, `DE_B_ADR_vs_Ctrl.tsv`, `DE_interaction_substrain_by_treatment.tsv`, `figures/FigS_ADR_response_concordance.png` | Genome-wide response correlated between substrains (Pearson r=0.535, p~0; 99.6% direction-concordant among genes significant in both). Only 24/19662 genes show significant substrain:treatment interaction. **Caveat: A tested with less power (n=2) than B (n=3, A-ADR1 excluded) — B's larger DEG count partly reflects this** |
 | R1-6 (GSEA software/version) | Name software/package/version, Reactome, MSigDB | `09_gsea_stat_ranking_canonical.R` | `logs/09_gsea_canonical_versions.txt`, `logs/09_sessionInfo.txt` | fgsea 1.24.0 (preranked, multilevel, `eps=0`), msigdbr 26.1.0, MSigDB db_version 2026.1.Mm, Reactome M2:CP:REACTOME (1333 sets) + 3 custom podocyte sets = 1336 joint universe. Replaces the original unnamed in-house implementation |
 | R1-6 (ranking metric misstated) | Correct/clarify the ranking metric | `09_gsea_stat_ranking_canonical.R` | `Step1_ranking_metric_identity_check.tsv` | Methods says "signed log2FC"; actual ranking (reconstructed from the Fig.6D q<p pattern, confirmed by rho=1.0000 rank-identity test) is the DESeq2 Wald **stat** (significance-weighted). See `Methods_rewrite_and_reviewer_response_notes.md` for the proposed corrected paragraph |
 | R1-6 (FDR not nominal p; full table) | Report FDR/q for gene-set results; supply full table | `09_gsea_stat_ranking_canonical.R` | `GSEA_canonical_focal_judgment_table.tsv`, `GSEA_<comparison>_full_joint_canonical.tsv` (x4) | Day-5 ADR B-vs-A (main, A1-excl), stat-ranked, joint FDR (vs 1336 sets): **Integrin signaling NES=+2.03, joint FDR=9.1e-4 — reproduces the manuscript's q<0.001 closely.** Podocyte-ageing NES=+1.93, joint FDR=9.5e-6, **but this is the OPPOSITE sign from the manuscript's reported NES=-1.42** — see Key finding 2 |
@@ -379,6 +405,14 @@ it does not affect any specific claim in the manuscript. Full write-up:
 - `tables/DE_*.tsv`, `tables/Supplementary_DE_tables.xlsx` — Step 1 DE tables (4 contrasts incl. Fig.6A-equivalent)
 - `figures/volcano_*.png` — Step 2 volcano plots (Wt1/Nphs1 always labeled; Tmem215/Nlrp1b/Glp1r highlighted)
 - `tables/DE_interaction_substrain_by_treatment.tsv`, `figures/crosscomparison_ADR_response_scatter.png` — Step 3
+- **R1-5 final deliverables (from `16_R1-5_final_deliverables.R`, repackages
+  the above, no new model fit):** `figures/Fig5_volcano_baseline.{png,pdf}`,
+  `figures/Fig6A_volcano_D5.{png,pdf}` (per-gene log2FC/FDR printed on the
+  labels themselves), `tables/TableS_top_baseline_genes.csv` (64 genes,
+  padj<0.05 & \|log2FC\|>1, replaces "modest" wording),
+  `tables/TableS_DE_all_comparisons.xlsx` (4 contrasts, one sheet each),
+  `figures/FigS_ADR_response_concordance.png`, `R1-5_response_paragraphs.md`
+  (response-letter text, one paragraph per item)
 - **`tables/Step1_ranking_metric_identity_check.tsv`** — rank-identity test (signed
   -log10p x sign(log2FC) vs. DESeq2 stat), the basis for reinstating `stat` as canonical
 - **`tables/GSEA_<comparison>_full_joint_canonical.tsv`** (x4, A1-excluded main) and

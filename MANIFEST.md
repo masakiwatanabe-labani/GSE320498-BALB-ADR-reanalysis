@@ -21,6 +21,9 @@ the index of everything else here.
 - `edgeR_vs_DESeq2_verification.md` — verifies that switching this revision's
   DE engine from the platform's original method (edgeR classic `exactTest()`)
   to DESeq2 v1.38.3 changes no conclusion behind Fig. 5/6.
+- `R1-5_response_paragraphs.md` — one response-letter paragraph per R1-5 item
+  (contrast sign/labeling, baseline gene description, supplementary DE tables,
+  ADR-response concordance), each citing the exact numbers in this package.
 - `ZENODO_MANIFEST.txt` — sha256 checksums + sizes for every file in this
   package, for Zenodo deposit integrity verification.
 
@@ -39,9 +42,10 @@ the index of everything else here.
   PDF/SVG/PNG.
 - `genesets/` — `KARAISKOS2018_PODOCYTE.gmt`, standard-format gene sets ready
   to load into any GSEA tool.
-- `scripts/` — the full numbered pipeline (`00`-`15`), run in order, that
+- `scripts/` — the full numbered pipeline (`00`-`16`), run in order, that
   reproduces every table and figure in this package, including the
-  edgeR-vs-DESeq2 verification (`15`).
+  edgeR-vs-DESeq2 verification (`15`) and the final R1-5 deliverables (`16`,
+  repackages/relabels existing DE output only, no new model fit).
 - `logs/` — package versions, sessionInfo, and QC/build logs.
 
 ## Most load-bearing individual files
@@ -57,3 +61,16 @@ the index of everything else here.
   figures for Fig. 6B.
 - `figures/Fig6_enrichment_INTEGRIN_SIGNALING.pdf` — recommended replacement
   figure for Fig. 6D.
+- `figures/Fig5_volcano_baseline.pdf`, `figures/Fig6A_volcano_D5.pdf` —
+  R1-5 replacement volcanoes: contrast sign stated in the title, Wt1/Nphs1
+  always labeled, Tmem215/Nlrp1b/Glp1r highlighted with exact log2FC/FDR
+  printed on the figure.
+- `tables/TableS_top_baseline_genes.csv` — R1-5 baseline gene-description
+  table (FDR<0.05 & |log2FC|>1, 64 genes), replacing the "modest" wording
+  with an explicit count and named examples.
+- `tables/TableS_DE_all_comparisons.xlsx` — R1-5 supplementary DE table, one
+  sheet per primary contrast (baseline B vs A, Day-5 B vs A, A ADR vs Ctrl,
+  B ADR vs Ctrl), each captioned with its sign convention.
+- `figures/FigS_ADR_response_concordance.png` — R1-5 cross-substrain
+  ADR-response concordance (Pearson r=0.54; 99.6% direction-concordant among
+  genes significant in both substrains).
