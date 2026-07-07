@@ -127,8 +127,11 @@ reconstruction of the original method.
 
 **R1-7 / R2-4 (A1 sensitivity, "data not shown"):**
 Full in/out numbers for all 6 focal gene sets across the affected comparisons are
-in `GSEA_canonical_focal_judgment_table.tsv`. Result is mixed, and we report both
-halves:
+in `GSEA_canonical_focal_judgment_table.tsv`, now also shown as a single figure,
+`figures/FigS_A1_sensitivity_NES_comparison.pdf` (dumbbell plot, NES A1-excluded
+vs. A1-included, sign flips that are significant on both sides highlighted in
+vermillion vs. noise-level flips shown as thin dotted lines). Result is mixed,
+and we report both halves:
 - Integrin signaling and ECM organization are **robust** to A1 inclusion (same
   sign, similar or greater significance both ways) — supports the manuscript's
   "robustness" claim for the ECM/integrin theme.

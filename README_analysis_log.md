@@ -137,7 +137,7 @@ confirmation in Key finding 5 above instead.
 | R1-6 (GSEA software/version) | Name software/package/version, Reactome, MSigDB | `09_gsea_stat_ranking_canonical.R` | `logs/09_gsea_canonical_versions.txt`, `logs/09_sessionInfo.txt` | fgsea 1.24.0 (preranked, multilevel, `eps=0`), msigdbr 26.1.0, MSigDB db_version 2026.1.Mm, Reactome M2:CP:REACTOME (1333 sets) + 3 custom podocyte sets = 1336 joint universe. Replaces the original unnamed in-house implementation |
 | R1-6 (ranking metric misstated) | Correct/clarify the ranking metric | `09_gsea_stat_ranking_canonical.R` | `Step1_ranking_metric_identity_check.tsv` | Methods says "signed log2FC"; actual ranking (reconstructed from the Fig.6D q<p pattern, confirmed by rho=1.0000 rank-identity test) is the DESeq2 Wald **stat** (significance-weighted). See `Methods_rewrite_and_reviewer_response_notes.md` for the proposed corrected paragraph |
 | R1-6 (FDR not nominal p; full table) | Report FDR/q for gene-set results; supply full table | `09_gsea_stat_ranking_canonical.R` | `GSEA_canonical_focal_judgment_table.tsv`, `GSEA_<comparison>_full_joint_canonical.tsv` (x4) | Day-5 ADR B-vs-A (main, A1-excl), stat-ranked, joint FDR (vs 1336 sets): **Integrin signaling NES=+2.03, joint FDR=9.1e-4 — reproduces the manuscript's q<0.001 closely.** Podocyte-ageing NES=+1.93, joint FDR=9.5e-6, **but this is the OPPOSITE sign from the manuscript's reported NES=-1.42** — see Key finding 2 |
-| R1-7 / R2-4 (A1 sensitivity, not "data not shown") | Show A1-in vs A1-out results | `09_gsea_stat_ranking_canonical.R` | `GSEA_canonical_focal_judgment_table.tsv`, `GSEA_ADR_B_vs_A_full_joint_canonical_A1included.tsv`, `GSEA_A_ADR_vs_Ctrl_full_joint_canonical_A1included.tsv` | Integrin signaling and ECM organization: **robust** to A1 (same sign, similar/greater significance both ways). Podocyte-ageing: **NOT robust — full sign flip**, NES=+1.93 (A1-excluded) vs. NES=-2.04 (A1-included). Karaiskos marker sets: robust, no sign flip, significant both ways |
+| R1-7 / R2-4 (A1 sensitivity, not "data not shown") | Show A1-in vs A1-out results | `09_gsea_stat_ranking_canonical.R`, `17_A1_sensitivity_supplementary_figure.R` | `GSEA_canonical_focal_judgment_table.tsv`, `GSEA_ADR_B_vs_A_full_joint_canonical_A1included.tsv`, `GSEA_A_ADR_vs_Ctrl_full_joint_canonical_A1included.tsv`, `figures/FigS_A1_sensitivity_NES_comparison.pdf` | Integrin signaling and ECM organization: **robust** to A1 (same sign, similar/greater significance both ways). Podocyte-ageing: **NOT robust — full sign flip**, NES=+1.93 (A1-excluded) vs. NES=-2.04 (A1-included) in the Fig. 6 comparison (`ADR_B_vs_A`), both sides significant (FDR<1e-5) — this is the only sign flip that is significant on both sides of the A1 switch. `A_ADR_vs_Ctrl` also flips sign for Integrin signaling/cell-surface-interactions, but neither side reaches FDR<0.05 there (noise-level, not a robustness concern). Karaiskos marker sets: robust, no sign flip, significant both ways. All of this is now a single at-a-glance dumbbell figure instead of buried in a table |
 | R2-2 (validate Serpine1/Col4a1/Col4a2/Loxl1) | Check these ECM genes reach significance | `02_DE_tables.R` | `DE_ADR_B_vs_A.tsv` | All 4 significantly higher in ByJcl at Day 5 post-ADR: Loxl1 padj=4.9e-12, Serpine1 padj=1.7e-9, Col4a2 padj=1.5e-3, Col4a1 padj=4.5e-3 — directionally confirms manuscript text. Gene-level, unaffected by ranking-metric choice |
 | R2-4 (Day5 vs Day7 timing; A1 QC criteria) | see R1-7 above for A1; timing rationale is a methods-text issue, not re-derivable from counts | — | — | see `TODO_not_recoverable_from_counts.md` |
 
@@ -413,6 +413,19 @@ it does not affect any specific claim in the manuscript. Full write-up:
   `tables/TableS_DE_all_comparisons.xlsx` (4 contrasts, one sheet each),
   `figures/FigS_ADR_response_concordance.png`, `R1-5_response_paragraphs.md`
   (response-letter text, one paragraph per item)
+- **`figures/FigS_A1_sensitivity_NES_comparison.{png,pdf}`** (from
+  `17_A1_sensitivity_supplementary_figure.R`, repackages
+  `GSEA_canonical_focal_judgment_table.tsv`, no new GSEA run) — R1-7/R2-4
+  supplementary figure: dumbbell plot of NES with A-ADR1 excluded (main) vs.
+  included (sensitivity), for all 6 focal gene sets, in both A1-applicable
+  comparisons (`ADR_B_vs_A`, the Fig. 6 comparison, and `A_ADR_vs_Ctrl`).
+  Sign flips that are significant on both sides (of concern) are drawn as a
+  thick vermillion line; sign flips where neither side reaches FDR<0.05
+  (noise-level) are drawn as a thin dotted grey line; robust pairs are a
+  solid grey line. Only the podocyte-ageing set flips in the "of concern"
+  sense — this is the figure that makes the manuscript's "data not shown...
+  confirmed robustness" claim checkable at a glance. See
+  `logs/17_A1_sensitivity_figure_summary.txt` for the full numeric table.
 - **`tables/Step1_ranking_metric_identity_check.tsv`** — rank-identity test (signed
   -log10p x sign(log2FC) vs. DESeq2 stat), the basis for reinstating `stat` as canonical
 - **`tables/GSEA_<comparison>_full_joint_canonical.tsv`** (x4, A1-excluded main) and
