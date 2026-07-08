@@ -86,3 +86,39 @@ folder's much longer history.
   significant but fall outside the top-20-by-FDR view, outranked by large
   housekeeping gene sets (translation, ribosome, antigen presentation) —
   the reason the ECM/adhesion-filtered alt panel exists.
+- **`manuscript_values.md`** — the single reconciliation table for embedding
+  confirmed values into the manuscript text: every number needed for Fig. 5,
+  6A, 6B, 6C, 6D and the ADR-response-concordance addition, mapped to its
+  manuscript location, with current vs. canonical-run values and an explicit
+  一致/要修正/新規追加 verdict for each row (28 rows). Two items stand out:
+  (1) Fig. 6B's podocyte-ageing set has the OPPOSITE sign from the
+  manuscript (NES=+1.93 vs. reported −1.42) in the manuscript's own stated
+  main-analysis configuration; (2) Fig. 6D's Integrin Signaling reproduces
+  in direction but not magnitude (NES=+2.03 vs. reported +1.54). Built from
+  `scripts/24_manuscript_values_extraction.R` (Steps 1/2/3/5, re-derives
+  every DE/GSEA value fresh from source tables, no new model) and
+  `scripts/25_Fig6C_ORA_rerun_DESeq2_DEGs.R` (Step 4, the one new analysis).
+- `figures/Figure6C_ORA_dotplot.{png,pdf}`, `tables/TableS_ORA_D5_full.csv`
+  (from `scripts/25_Fig6C_ORA_rerun_DESeq2_DEGs.R`) — **Fig. 6C kept as ORA**
+  (per the manuscript's stated method), but rerun with the DEG list swapped
+  from edgeR- to DESeq2-derived (`DE_ADR_B_vs_A.tsv`, padj<0.05, A1-excluded,
+  n=546 DEGs, 99.5% mapped to Entrez via `org.Mm.eg.db`; background = all
+  19,662 tested genes). `ReactomePA::enrichPathway` v1.42.0, BH-adjusted:
+  734 Reactome terms tested, 19 significant (BH p<0.05). Top term
+  "Cell-extracellular matrix interactions" (7 genes, BH p=4.8e-4);
+  "Extracellular matrix organization" itself significant (18 genes, BH
+  p=0.020); 16/20 top terms are ECM/collagen/integrin/adhesion-related by
+  name. This is a genuinely different, complementary panel to
+  `Figure6C_dotplot_fgsea` above (ORA on a DEG list vs. GSEA on the full
+  ranked list) — both are provided since the manuscript's stated method for
+  Fig. 6C is specifically ORA.
+- `tables/TableS_top20_absLog2FC_baseline.csv`,
+  `tables/TableS_ADR_response_A_vs_B_merged.csv` — supporting tables behind
+  `manuscript_values.md`.
+- `logs/24_Step1_Fig5_Fig6A_values.txt`, `logs/24_Step2_Fig6B_values.txt`,
+  `logs/24_Step3_Fig6D_values.txt`, `logs/24_Step5_ADR_concordance_values.txt`,
+  `logs/25_Fig6C_ORA_versions_and_summary.txt`,
+  `logs/25_sessionInfo_ORA_and_canonical.txt` — full-precision raw values
+  and package/session versions behind every row of `manuscript_values.md`.
+- `figures/FigS_ADR_response_concordance.png` — copied in from `../figures/`
+  for self-containedness; Step 5 numbers re-derived fresh and match exactly.
