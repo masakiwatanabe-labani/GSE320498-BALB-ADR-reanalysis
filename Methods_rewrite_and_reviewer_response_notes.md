@@ -126,6 +126,13 @@ This is the single strongest piece of evidence that stat-ranking is the correct
 reconstruction of the original method.
 
 **R1-7 / R2-4 (A1 sensitivity, "data not shown"):**
+Why A-ADR1 was excluded from the main analysis in the first place:
+`figures/FigS_A1_contamination_QC.pdf` shows A-ADR1 has the highest CPM among
+the 6 ADR samples for 5/6 renal-tubular-epithelial markers, and the lowest
+podocyte:tubular marker-sum ratio (2.51, 2.85x lower than the next-lowest
+sample) — driven by excess tubular (non-glomerular) contamination, not a
+depleted podocyte signal.
+
 Full in/out numbers for all 6 focal gene sets across the affected comparisons are
 in `GSEA_canonical_focal_judgment_table.tsv`, now also shown as a single figure,
 `figures/FigS_A1_sensitivity_NES_comparison.pdf` (dumbbell plot, NES A1-excluded

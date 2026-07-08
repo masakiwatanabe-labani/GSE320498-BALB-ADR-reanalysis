@@ -28,6 +28,10 @@ the index of everything else here.
   A-ADR1) sensitivity check: NES with A1 excluded vs. included, all 6 focal
   gene sets, both A1-applicable comparisons; only podocyte-ageing shows a
   sign flip that is significant on both sides (highlighted in vermillion).
+- `figures/FigS_A1_contamination_QC.pdf` — QC basis for excluding A-ADR1:
+  per-marker renal-tubular-epithelial CPM (A-ADR1 highest on 5/6 markers) and
+  podocyte:tubular marker-sum ratio (A-ADR1 = 2.51, lowest of all 6 ADR
+  samples, driven by excess tubular signal, not depleted podocyte signal).
 - `ZENODO_MANIFEST.txt` — sha256 checksums + sizes for every file in this
   package, for Zenodo deposit integrity verification.
 
@@ -46,12 +50,14 @@ the index of everything else here.
   PDF/SVG/PNG.
 - `genesets/` — `KARAISKOS2018_PODOCYTE.gmt`, standard-format gene sets ready
   to load into any GSEA tool.
-- `scripts/` — the full numbered pipeline (`00`-`17`), run in order, that
+- `scripts/` — the full numbered pipeline (`00`-`18`), run in order, that
   reproduces every table and figure in this package, including the
   edgeR-vs-DESeq2 verification (`15`), the final R1-5 deliverables (`16`,
-  repackages/relabels existing DE output only, no new model fit), and the
+  repackages/relabels existing DE output only, no new model fit), the
   R1-7/R2-4 A1 sensitivity figure (`17`, repackages the existing canonical
-  GSEA judgment table, no new GSEA run).
+  GSEA judgment table, no new GSEA run), and the A-ADR1 contamination QC
+  figure (`18`, recomputes CPM directly from `tables/00_merged_counts.tsv`,
+  no new sequencing analysis).
 - `logs/` — package versions, sessionInfo, and QC/build logs.
 
 ## Most load-bearing individual files

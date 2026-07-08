@@ -98,7 +98,16 @@ confirmation in Key finding 5 above instead.
   4.0.2; openxlsx 4.2.8.1).
 - Sample "A1" flagged in the manuscript text was confirmed by the user to be
   **A-ADR1** (corroborated independently by glomerular-purity marker CPM ratios;
-  see `outputs/logs/00_qc_report.txt`).
+  see `outputs/logs/00_qc_report.txt`; visualized in
+  `figures/FigS_A1_contamination_QC.pdf`, from
+  `18_A1_contamination_QC_figure.R`). A-ADR1's summed tubular-marker CPM
+  (3739.5) is 3.09x the mean of the other 5 ADR samples, and its
+  podocyte:tubular marker-sum ratio (2.51) is the lowest of all 6 ADR samples
+  (2.85x lower than the next-lowest, A-ADR2 at 7.14) — driven by **excess
+  tubular (non-glomerular) signal**, not a depleted podocyte signal (A-ADR1's
+  summed podocyte-marker CPM is mid-range, not the lowest). This is the QC
+  basis for excluding A-ADR1 in the main analysis and re-including it only as
+  the named sensitivity check (see R1-7/R2-4 above).
 - Joint FDR is always computed across the **full tested gene-set universe** for
   that comparison (Reactome M2:CP:REACTOME, 1333 sets, plus the custom podocyte
   sets = 1336 total in script `09`), never on a focal-subset alone.
@@ -426,6 +435,16 @@ it does not affect any specific claim in the manuscript. Full write-up:
   sense — this is the figure that makes the manuscript's "data not shown...
   confirmed robustness" claim checkable at a glance. See
   `logs/17_A1_sensitivity_figure_summary.txt` for the full numeric table.
+- **`figures/FigS_A1_contamination_QC.{png,pdf}`** (from
+  `18_A1_contamination_QC_figure.R`, recomputes CPM directly from
+  `tables/00_merged_counts.tsv`, same marker sets/logic as
+  `00_load_merge_qc.R`, no new sequencing analysis) — QC justification for
+  excluding A-ADR1 in the main analysis. Panel A: per-marker renal-tubular-
+  epithelial CPM (Lrp2, Slc34a1, Aqp1, Slc12a1, Umod, Aqp2), all 6 ADR
+  samples; A-ADR1 is highest on 5/6 markers. Panel B: podocyte:tubular
+  marker-sum ratio per sample (log scale); A-ADR1 = 2.51, lowest of all 6,
+  2.85x lower than the next-lowest sample. See
+  `logs/18_A1_contamination_QC_summary.txt` for the full numeric table.
 - **`tables/Step1_ranking_metric_identity_check.tsv`** — rank-identity test (signed
   -log10p x sign(log2FC) vs. DESeq2 stat), the basis for reinstating `stat` as canonical
 - **`tables/GSEA_<comparison>_full_joint_canonical.tsv`** (x4, A1-excluded main) and
