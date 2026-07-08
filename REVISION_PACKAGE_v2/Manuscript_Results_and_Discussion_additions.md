@@ -23,6 +23,7 @@ not manuscript text.
 | Fig. 6B substitute proposal | Results + Discussion + Fig. 6B legend | R7, D3, D4 | `Fig6B_composite_*.pdf` |
 | R2-2 (Serpine1/Col4a1/Col4a2/Loxl1) | Results | R8 | `DE_ADR_B_vs_A.tsv` |
 | New QC finding (A1 + A-Ctrl3 purity) | Results (Methods/QC) + Discussion | R9, D5 | `FigS_A1_contamination_QC.pdf`, `FigS_ACtrl3_contamination_QC.pdf` |
+| Fig. 6C rebuild (ORA → fgsea, unify with 6B/6D) | Fig. 6C + Results + legend | R10 | `figures/Figure6C_dotplot_fgsea.pdf`, `Figure6C_alt_ECMonly.pdf` |
 | — | Discussion (limitations) | D6 | — |
 
 ---
@@ -274,6 +275,48 @@ paragraph, plus the supplementary table it references, closes that gap.]
 > not sensitive to A-Ctrl3's inclusion or exclusion, and no change to the
 > reported baseline analysis is warranted; we report the QC finding and
 > sensitivity check for transparency.
+
+### R10. Figure 6C rebuilt from the canonical fgsea run (replaces the original over-representation-analysis panel)
+
+[Replaces the Fig. 6C dot plot and its legend. The original panel was
+produced by a different statistical framework (edgeR + ReactomePA
+`enrichPathway()`, over-representation analysis) than Fig. 6B/6D (preranked
+GSEA), so the four Fig. 6 panels mixed methods; this brings C into the same
+framework as B/D.]
+
+> Figure 6C was regenerated from the same canonical preranked GSEA run
+> (DESeq2 Wald-stat ranking, `fgsea` v1.24.0, Reactome M2:CP:REACTOME +
+> podocyte-focused custom gene sets, 1,336-set joint universe, 1,293 sets
+> tested after size filtering) used for Fig. 6B and 6D, rather than the
+> original over-representation analysis. Of the 1,293 Reactome/podocyte
+> gene sets tested in the `ADR_B_vs_A` (Day 5, A-ADR1-excluded) comparison,
+> 355 (27.5%) reached joint FDR < 0.05. The 20 most significant gene sets by
+> FDR were dominated by large, low-dispersion housekeeping categories
+> (translation, ribosome biogenesis, proteasome assembly, antigen
+> presentation), a known property of significance-weighted ranking on
+> high-count genes (see Key finding 7, `../README_analysis_log.md`) rather
+> than a biological claim. `REACTOME_EXTRACELLULAR_MATRIX_ORGANIZATION`
+> (NES = +2.19, FDR = 9.7 × 10⁻¹¹) and `REACTOME_INTEGRIN_SIGNALING`
+> (NES = +2.03, FDR = 9.1 × 10⁻⁴) are both individually significant but rank
+> 55th and 170th of 1,293 gene sets respectively, and so do not appear
+> in a plain top-20-by-FDR view. We therefore also filtered directly on
+> ECM/collagen/integrin/adhesion gene-set names: of 22 matched Reactome gene
+> sets, 20 had positive NES (higher in ByJcl) and 15 reached joint
+> FDR < 0.05, indicating broad, consistent enrichment of extracellular
+> matrix and cell-adhesion biology at Day 5 post-adriamycin in ByJcl, even
+> though individual ECM/integrin gene sets are not the single
+> most-significant hits genome-wide. The complete result for all 1,293
+> tested gene sets is provided in Table S_fgsea
+> [`tables/TableS_fgsea_ADR_B_vs_A_full.csv`].
+
+[Proposed Figure 6C legend:] *"Dot plot of Reactome gene set enrichment,
+Day 5 post-adriamycin, BALB/cByJcl vs. BALB/cAJcl (preranked GSEA,
+`fgsea` v1.24.0, DESeq2 Wald-statistic ranking, A-ADR1 excluded). x-axis:
+normalized enrichment score (NES); positive = higher in BALB/cByJcl. Point
+size: number of genes in the gene set. Point color: Benjamini-Hochberg FDR,
+computed jointly across all 1,293 tested Reactome gene sets (not on this
+panel's subset alone). Gene sets shown: the 20 gene sets with the smallest
+joint FDR among the 355 gene sets reaching FDR < 0.05."*
 
 ---
 

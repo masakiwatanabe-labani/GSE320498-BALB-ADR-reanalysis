@@ -58,3 +58,31 @@ folder's much longer history.
   MSigDB 2026.1.Mm, DESeq2 1.38.3), ranking metric, gene-set universe, and
   FDR method. An `overview` sheet summarizes gene sets tested/significant
   per comparison (219/1293, 355/1293, 99/1293, 171/1293).
+- `figures/Figure6C_dotplot_fgsea.{png,pdf}` (+`_legend.txt`),
+  `figures/Figure6C_alt_absNES.{png,pdf}` (+`_legend.txt`),
+  `figures/Figure6C_alt_ECMonly.{png,pdf}` (+`_legend.txt`),
+  `tables/TableS_fgsea_ADR_B_vs_A_full.csv` (from
+  `scripts/23_Fig6C_fgsea_dotplot.R`, reuses the existing canonical
+  `ADR_B_vs_A` A1-excluded fgsea output, no new GSEA run) — **Fig. 6C
+  rebuilt from canonical fgsea**, replacing the original edgeR +
+  ReactomePA `enrichPathway()` (ORA) dot plot (x=GeneRatio, size=Count,
+  color=p.adjust), which mixed statistical frameworks with Fig. 6B/6D's
+  GSEA-based panels (see `../README_analysis_log.md`, "A second, independent
+  methodological correction" section, for that original ORA-vs-GSEA
+  history). The new panel uses the same run as Fig. 6B/D
+  (x=NES, size=gene-set size, color=joint BH FDR, y sorted by NES, dashed
+  line at NES=0), in 3 variants: main = top 20 of 355 FDR<0.05 gene sets by
+  FDR; alt = top 20 by \|NES\|; alt = all 22 ECM/collagen/integrin/adhesion
+  name-matched gene sets regardless of significance (20/22 positive NES,
+  15/22 FDR<0.05). Each `_legend.txt` states the selection rule, method, and
+  axis/encoding definitions verbatim for drop-in use as a figure legend.
+  `logs/23_Fig6C_consistency_check.txt` confirms all 4 primary comparisons
+  (underlying Fig. 5, 6A, 6B, 6C, 6D) test the identical 19,662 genes and
+  1,293 gene sets, with one consistent FDR definition throughout — the
+  original manuscript's mismatched "Fig.5=13,064 vs. Fig.6A=13,278
+  variables" issue does not recur — and reports that
+  `REACTOME_EXTRACELLULAR_MATRIX_ORGANIZATION` (rank 55/1293, FDR=9.7e-11)
+  and `REACTOME_INTEGRIN_SIGNALING` (rank 170/1293, FDR=9.1e-4) are both
+  significant but fall outside the top-20-by-FDR view, outranked by large
+  housekeeping gene sets (translation, ribosome, antigen presentation) —
+  the reason the ECM/adhesion-filtered alt panel exists.
