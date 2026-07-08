@@ -32,6 +32,12 @@ the index of everything else here.
   per-marker renal-tubular-epithelial CPM (A-ADR1 highest on 5/6 markers) and
   podocyte:tubular marker-sum ratio (A-ADR1 = 2.51, lowest of all 6 ADR
   samples, driven by excess tubular signal, not depleted podocyte signal).
+- `figures/FigS_ACtrl3_contamination_QC.pdf`,
+  `figures/FigS_ACtrl3_sensitivity_NES_comparison.pdf` — new QC observation
+  (not reviewer-raised): A-Ctrl3 shows tubular contamination comparable to
+  A-ADR1 (2nd-highest of all 12 samples), but excluding it does not flip the
+  sign of any focal gene set for `baseline_B_vs_A` — the baseline
+  conclusions are robust to A-Ctrl3.
 - `ZENODO_MANIFEST.txt` — sha256 checksums + sizes for every file in this
   package, for Zenodo deposit integrity verification.
 
@@ -50,14 +56,16 @@ the index of everything else here.
   PDF/SVG/PNG.
 - `genesets/` — `KARAISKOS2018_PODOCYTE.gmt`, standard-format gene sets ready
   to load into any GSEA tool.
-- `scripts/` — the full numbered pipeline (`00`-`18`), run in order, that
+- `scripts/` — the full numbered pipeline (`00`-`20`), run in order, that
   reproduces every table and figure in this package, including the
   edgeR-vs-DESeq2 verification (`15`), the final R1-5 deliverables (`16`,
   repackages/relabels existing DE output only, no new model fit), the
   R1-7/R2-4 A1 sensitivity figure (`17`, repackages the existing canonical
-  GSEA judgment table, no new GSEA run), and the A-ADR1 contamination QC
-  figure (`18`, recomputes CPM directly from `tables/00_merged_counts.tsv`,
-  no new sequencing analysis).
+  GSEA judgment table, no new GSEA run), the A-ADR1 contamination QC figure
+  (`18`, recomputes CPM directly from `tables/00_merged_counts.tsv`, no new
+  sequencing analysis), and the A-Ctrl3 (control-side) sensitivity check
+  (`19`-`20`: new DESeq2/GSEA re-run with A-Ctrl3 excluded, plus the matching
+  QC and NES-comparison figures).
 - `logs/` — package versions, sessionInfo, and QC/build logs.
 
 ## Most load-bearing individual files

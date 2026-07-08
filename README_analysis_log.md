@@ -148,6 +148,7 @@ confirmation in Key finding 5 above instead.
 | R1-6 (FDR not nominal p; full table) | Report FDR/q for gene-set results; supply full table | `09_gsea_stat_ranking_canonical.R` | `GSEA_canonical_focal_judgment_table.tsv`, `GSEA_<comparison>_full_joint_canonical.tsv` (x4) | Day-5 ADR B-vs-A (main, A1-excl), stat-ranked, joint FDR (vs 1336 sets): **Integrin signaling NES=+2.03, joint FDR=9.1e-4 — reproduces the manuscript's q<0.001 closely.** Podocyte-ageing NES=+1.93, joint FDR=9.5e-6, **but this is the OPPOSITE sign from the manuscript's reported NES=-1.42** — see Key finding 2 |
 | R1-7 / R2-4 (A1 sensitivity, not "data not shown") | Show A1-in vs A1-out results | `09_gsea_stat_ranking_canonical.R`, `17_A1_sensitivity_supplementary_figure.R` | `GSEA_canonical_focal_judgment_table.tsv`, `GSEA_ADR_B_vs_A_full_joint_canonical_A1included.tsv`, `GSEA_A_ADR_vs_Ctrl_full_joint_canonical_A1included.tsv`, `figures/FigS_A1_sensitivity_NES_comparison.pdf` | Integrin signaling and ECM organization: **robust** to A1 (same sign, similar/greater significance both ways). Podocyte-ageing: **NOT robust — full sign flip**, NES=+1.93 (A1-excluded) vs. NES=-2.04 (A1-included) in the Fig. 6 comparison (`ADR_B_vs_A`), both sides significant (FDR<1e-5) — this is the only sign flip that is significant on both sides of the A1 switch. `A_ADR_vs_Ctrl` also flips sign for Integrin signaling/cell-surface-interactions, but neither side reaches FDR<0.05 there (noise-level, not a robustness concern). Karaiskos marker sets: robust, no sign flip, significant both ways. All of this is now a single at-a-glance dumbbell figure instead of buried in a table |
 | R2-2 (validate Serpine1/Col4a1/Col4a2/Loxl1) | Check these ECM genes reach significance | `02_DE_tables.R` | `DE_ADR_B_vs_A.tsv` | All 4 significantly higher in ByJcl at Day 5 post-ADR: Loxl1 padj=4.9e-12, Serpine1 padj=1.7e-9, Col4a2 padj=1.5e-3, Col4a1 padj=4.5e-3 — directionally confirms manuscript text. Gene-level, unaffected by ranking-metric choice |
+| (new QC observation, not reviewer-raised) A-Ctrl3 sensitivity | Check whether the baseline comparison is similarly affected by a low-purity Ctrl sample | `18_A1_contamination_QC_figure.R`, `19_ACtrl3_sensitivity_dds_and_DE.R`, `20_ACtrl3_contamination_and_sensitivity_figure.R` | `figures/FigS_ACtrl3_contamination_QC.pdf`, `figures/FigS_ACtrl3_sensitivity_NES_comparison.pdf`, `tables/Supplementary_Step19_ACtrl3_sensitivity.xlsx` | Extending the A1 purity check to all 12 samples showed A-Ctrl3 has the 2nd-highest tubular-marker CPM of any sample (3483.9, behind only A-ADR1's 3739.5) and the lowest podocyte:tubular ratio among the 6 Ctrl samples (4.50, next-lowest 8.52). Unlike A1, however, **excluding A-Ctrl3 does not flip the sign of any of the 6 focal gene sets for `baseline_B_vs_A`** (Pearson r=0.88 genome-wide log2FC concordance, 100% direction-concordant among genes significant in either configuration). Baseline substrain-difference conclusions are robust to A-Ctrl3 |
 | R2-4 (Day5 vs Day7 timing; A1 QC criteria) | see R1-7 above for A1; timing rationale is a methods-text issue, not re-derivable from counts | — | — | see `TODO_not_recoverable_from_counts.md` |
 
 ## Key findings requiring author attention
@@ -445,6 +446,21 @@ it does not affect any specific claim in the manuscript. Full write-up:
   marker-sum ratio per sample (log scale); A-ADR1 = 2.51, lowest of all 6,
   2.85x lower than the next-lowest sample. See
   `logs/18_A1_contamination_QC_summary.txt` for the full numeric table.
+- **A-Ctrl3 sensitivity check** (new QC observation from this re-analysis,
+  not raised by the reviewers — the manuscript's A1 sensitivity language only
+  covers the ADR arm): `19_ACtrl3_sensitivity_dds_and_DE.R` builds a
+  baseline_B_vs_A / A_ADR_vs_Ctrl DESeq2 re-run with A-Ctrl3 excluded
+  (`tables/DE_baseline_B_vs_A_ACtrl3excluded_sens.tsv`,
+  `tables/Supplementary_Step19_ACtrl3_sensitivity.xlsx`) and canonical GSEA
+  for both configurations (`tables/GSEA_ACtrl3_sensitivity_judgment_table.tsv`).
+  `20_ACtrl3_contamination_and_sensitivity_figure.R` produces
+  **`figures/FigS_ACtrl3_contamination_QC.{png,pdf}`** (same panel layout as
+  the A1 QC figure, but for the 6 Ctrl samples; A-Ctrl3 highlighted) and
+  **`figures/FigS_ACtrl3_sensitivity_NES_comparison.{png,pdf}`** (NES
+  dumbbell, A-Ctrl3 included vs. excluded, `baseline_B_vs_A`). Unlike A1, all
+  6 focal gene sets keep the same sign either way — see
+  `logs/20_ACtrl3_sensitivity_figure_summary.txt` and
+  `logs/19_ACtrl3_sensitivity_concordance.txt` for full numbers.
 - **`tables/Step1_ranking_metric_identity_check.tsv`** — rank-identity test (signed
   -log10p x sign(log2FC) vs. DESeq2 stat), the basis for reinstating `stat` as canonical
 - **`tables/GSEA_<comparison>_full_joint_canonical.tsv`** (x4, A1-excluded main) and
