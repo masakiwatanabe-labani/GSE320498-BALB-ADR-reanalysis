@@ -24,4 +24,11 @@ folder's much longer history.
 
 ## Contents added so far
 
-_(none yet — this folder was just created)_
+- `Manuscript_Results_and_Discussion_additions.md` — draft Results and
+  Discussion text for the manuscript itself (not the response letter),
+  covering: baseline substrain DE description (replaces "modest" wording),
+  Wt1/Nphs1 verification, cross-substrain ADR-response concordance, GSEA
+  ranking-metric correction, Integrin/ECM robustness, the podocyte-ageing
+  sign-flip and its non-robustness, the Karaiskos marker panel as a proposed
+  Fig. 6B substitute, and the A1/A-Ctrl3 sample-purity QC findings. Every
+  number cross-references the source table/figure in `../`.
