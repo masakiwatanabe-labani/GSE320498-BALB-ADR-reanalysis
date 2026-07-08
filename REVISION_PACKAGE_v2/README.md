@@ -41,3 +41,16 @@ folder's much longer history.
   volcano-plot label. A-Ctrl3 (flagged for tubular contamination) is shown
   as an open triangle for transparency. Bracket annotates the main-analysis
   baseline_B_vs_A FDR for each gene.
+- `tables/TableS_GSEA_all_comparisons_canonical.xlsx` (from
+  `scripts/22_R1-6_GSEA_supplementary_table.R`, repackages the existing
+  canonical `GSEA_<comparison>_full_joint_canonical.tsv` output, no new GSEA
+  run) — R1-6 supplementary table: **every** gene set tested (1,293 of the
+  1,336-set joint Reactome + podocyte universe survived fgsea's size filter),
+  for all 4 primary comparisons, one sheet each, with nominal p AND
+  BH-adjusted FDR/q-value columns plus an explicit `significant_FDR0.05`
+  YES/no column (the manuscript's own stated significance criterion — not
+  nominal p, which the original Fig. 6B/6D text used). Each sheet's caption
+  states the exact software/package/versions (fgsea 1.24.0, msigdbr 26.1.0,
+  MSigDB 2026.1.Mm, DESeq2 1.38.3), ranking metric, gene-set universe, and
+  FDR method. An `overview` sheet summarizes gene sets tested/significant
+  per comparison (219/1293, 355/1293, 99/1293, 171/1293).
