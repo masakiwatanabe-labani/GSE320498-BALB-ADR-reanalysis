@@ -24,14 +24,18 @@ folder's much longer history.
 
 ## Contents added so far
 
-- `Manuscript_Results_and_Discussion_additions.md` — draft Results and
-  Discussion text for the manuscript itself (not the response letter),
-  covering: baseline substrain DE description (replaces "modest" wording),
-  Wt1/Nphs1 verification, cross-substrain ADR-response concordance, GSEA
-  ranking-metric correction, Integrin/ECM robustness, the podocyte-ageing
-  sign-flip and its non-robustness, the Karaiskos marker panel as a proposed
-  Fig. 6B substitute, and the A1/A-Ctrl3 sample-purity QC findings. Every
-  number cross-references the source table/figure in `../`.
+- `Manuscript_Results_and_Discussion_additions.md` — **the single consolidated
+  document to work from when revising the manuscript text.** Updated
+  2026-07-08 to be comprehensive: a "Quick reference" table at the top maps
+  every reviewer comment to the exact section/paragraph to edit; includes the
+  proposed Methods paragraph (M1), proposed Fig. 5/6A legend text (sign
+  convention), 9 Results paragraphs (R1-R9: baseline DE description, Wt1/Nphs1,
+  ADR-response concordance, GSEA FDR reporting, Fig. 6D reproduction, Fig. 6B
+  sign-flip, Karaiskos panel substitute, R2-2 ECM gene validation, A1/A-Ctrl3
+  QC), and 6 Discussion paragraphs (D1-D6: ranking-metric correction, "data
+  not shown" contradiction, Karaiskos justification, bulk-RNA-seq caveat,
+  sample-purity limitation, general limitations). Every number
+  cross-references the source table/figure in `../`.
 - `figures/Fig5B_Wt1_Nphs1_expression.{png,pdf}` (from
   `scripts/21_Wt1_Nphs1_expression_panel.R`, DESeq2-normalized counts, no new
   statistical model) — proposed Fig. 5B companion panel: per-sample

@@ -1,22 +1,89 @@
-# Proposed Results and Discussion additions/revisions
+# Proposed Methods / Results / Discussion additions and revisions
 
-Draft text for the authors to adapt and insert into the manuscript. Every
-number below is pulled directly from the re-analysis output in
-`../` (the main `REVISION_PACKAGE` folder) — see `../README_analysis_log.md`
-for the full derivation and the exact script that produced each value. Figure
-and table references use the file names actually generated; final
-figure/table numbering is left to the authors, since it depends on how this
-material is combined with other revisions. Bracketed notes `[...]` are
-instructions to the authors, not text meant to appear in the manuscript.
+Consolidated draft text for the authors to adapt and insert directly into the
+manuscript. Every number below is pulled from the re-analysis output in `../`
+(the main `REVISION_PACKAGE` folder); see `../README_analysis_log.md` for the
+full derivation and the exact script behind each value. Figure/table
+references use the actual generated file names — final figure/table
+numbering is left to the authors. Bracketed notes `[...]` are instructions,
+not manuscript text.
+
+## Quick reference: what to change, where
+
+| Reviewer comment | Manuscript section to edit | Text below | Key supporting file(s) |
+|---|---|---|---|
+| R1-6 (name GSEA software/version, ranking metric) | Methods | M1 | `../logs/09_gsea_canonical_versions.txt` |
+| R1-5 (state contrast/sign for Fig. 5 & 6A) | Fig. 5 / Fig. 6A legends | Fig. 5/6A legend text below | `Fig5_volcano_baseline.pdf`, `Fig6A_volcano_D5.pdf` |
+| R1-5 ("modest" baseline divergence) | Results | R1 | `TableS_top_baseline_genes.csv` |
+| R1-5 (Wt1/Nphs1 verifiable) | Results | R2 | `Fig5_volcano_baseline.pdf`, `Fig6A_volcano_D5.pdf`, `figures/Fig5B_Wt1_Nphs1_expression.png` |
+| R1-5 (baseline→ADR response comparison) | Results | R3 | `FigS_ADR_response_concordance.png` |
+| R1-6 (FDR not nominal p; full gene-set table) | Results + Methods | R4 | `tables/TableS_GSEA_all_comparisons_canonical.xlsx` |
+| R1-6 / Fig. 6D reproduction | Results | R5 | `GSEA_canonical_focal_judgment_table.tsv` |
+| R1-7 / R2-4 (A1 sensitivity, "data not shown") | Results + Discussion | R6, D2 | `FigS_A1_sensitivity_NES_comparison.pdf` |
+| Fig. 6B substitute proposal | Results + Discussion + Fig. 6B legend | R7, D3, D4 | `Fig6B_composite_*.pdf` |
+| R2-2 (Serpine1/Col4a1/Col4a2/Loxl1) | Results | R8 | `DE_ADR_B_vs_A.tsv` |
+| New QC finding (A1 + A-Ctrl3 purity) | Results (Methods/QC) + Discussion | R9, D5 | `FigS_A1_contamination_QC.pdf`, `FigS_ACtrl3_contamination_QC.pdf` |
+| — | Discussion (limitations) | D6 | — |
+
+---
+
+## METHODS
+
+### M1. Differential expression and gene set enrichment analysis (proposed replacement paragraph)
+
+[Replaces the current Methods description of the DE/GSEA pipeline. Directly
+addresses R1-6's request to name the software/package/version used and to
+correct the stated ranking metric.]
+
+> Differentially expressed genes were identified with DESeq2 (v1.38.3) using
+> a Wald test. For gene set enrichment analysis, all detected genes were
+> ranked by the DESeq2 Wald test statistic (a signed, significance-weighted
+> ranking that combines the direction and magnitude of the fold change with
+> its estimation uncertainty). Preranked GSEA was performed using the
+> `fgsea` R package (v1.24.0, multilevel algorithm, `eps = 0`,
+> minimum/maximum gene-set size 5/500) against the Reactome collection
+> (MSigDB M2:CP:REACTOME, db_version 2026.1.Mm, mouse-native gene symbols
+> via `msigdbr` v26.1.0; 1,333 gene sets) together with the Tabula Muris
+> Senis kidney podocyte-ageing signature [and, if the Fig. 6B substitution in
+> R7/D3 is adopted: a mouse glomerular single-cell podocyte marker panel from
+> Karaiskos et al., 2018]. False discovery rate (Benjamini-Hochberg q-value)
+> was computed jointly across every gene set tested in a given comparison
+> (1,336 gene sets), not on any single gene set or focal subset in isolation.
+> A fixed random seed (20260220) was set immediately before each `fgsea()`
+> call for reproducibility.
+
+[Full rationale for the ranking-metric correction — including the internal
+q<p inconsistency in the originally reported Fig. 6D statistics that first
+motivated this reconstruction — is in
+`../Methods_rewrite_and_reviewer_response_notes.md`, and is summarized for
+Discussion in D1 below.]
+
+---
+
+## FIGURE LEGENDS (sign convention — addresses R1-5 item 1 directly)
+
+[Insert into the Fig. 5 and Fig. 6A legends. This is the single edit that
+resolves R1-5's first point: "clarify which contrast is plotted and which
+direction is positive."]
+
+> **Figure 5 (baseline).** Volcano plot of differential gene expression
+> between untreated BALB/cByJcl and BALB/cAJcl (DESeq2 Wald test). Positive
+> log2 fold change indicates higher expression in BALB/cByJcl relative to
+> BALB/cAJcl. *Wt1* and *Nphs1* are labeled in every panel regardless of
+> significance; genes discussed in the text (*Tmem215*, *Nlrp1b*, *Glp1r*)
+> are additionally highlighted with their exact log2 fold change and FDR.
+
+> **Figure 6A (Day 5 post-adriamycin).** Volcano plot of differential gene
+> expression between BALB/cByJcl and BALB/cAJcl at Day 5 after adriamycin
+> administration (DESeq2 Wald test). Positive log2 fold change indicates
+> higher expression in BALB/cByJcl relative to BALB/cAJcl at this time point.
+> *Wt1* and *Nphs1* are labeled as in Figure 5.
 
 ---
 
 ## RESULTS
 
 ### R1. Baseline transcriptional divergence between substrains (replaces the "modest divergence" paragraph)
-
-[Insert in place of, or immediately after, the sentence describing the
-baseline substrain comparison as showing "modest" divergence.]
 
 > At baseline (untreated), differential expression analysis identified 103 of
 > 19,662 tested genes (0.5%) as significantly different between BALB/cByJcl
@@ -43,14 +110,11 @@ baseline substrain comparison as showing "modest" divergence.]
 
 ### R2. Podocyte-identity markers Wt1 and Nphs1 across substrains and time points
 
-[Insert alongside, or in place of, the statement that Wt1 and Nphs1 "do not
-change robustly" between substrains — now directly checkable in Figure 5 and
-Figure 6A, since both genes are labeled on the volcano plots with their exact
-log2FC and FDR (`Fig5_volcano_baseline.pdf`, `Fig6A_volcano_D5.pdf`).]
-
 > At baseline, neither *Wt1* (log2FC = +0.14, FDR = 0.87) nor *Nphs1*
 > (log2FC = +0.23, FDR = 0.79) differed significantly between substrains,
-> consistent with equivalent baseline podocyte identity. At Day 5
+> consistent with equivalent baseline podocyte identity (Figure 5B
+> [`figures/Fig5B_Wt1_Nphs1_expression.png`] shows the underlying
+> per-sample normalized expression for both genes). At Day 5
 > post-adriamycin, *Wt1* approached but did not cross the significance
 > threshold (log2FC = −0.71, FDR = 0.050), and *Nphs1* remained non-significant
 > but closer to threshold than at baseline (log2FC = −0.78, FDR = 0.064). We
@@ -60,9 +124,6 @@ log2FC and FDR (`Fig5_volcano_baseline.pdf`, `Fig6A_volcano_D5.pdf`).]
 > assessment can be verified at a glance.
 
 ### R3. The adriamycin-induced transcriptional response is concordant between substrains in direction and magnitude
-
-[New paragraph; supports/extends any existing statement that the two
-substrains mount similar disease responses.]
 
 > To assess whether AJcl and ByJcl mount a similar transcriptional response to
 > adriamycin, we compared the ADR-vs-control log2 fold change for every gene,
@@ -77,47 +138,52 @@ substrains mount similar disease responses.]
 > substrains mount an ADR response that is highly concordant in both direction
 > and overall magnitude (ordinary least-squares slope = 0.62 relative to
 > identity). We note that AJcl was tested with less statistical power (n = 2,
-> after excluding the flagged low-purity sample; see R7) than ByJcl (n = 3),
+> after excluding the flagged low-purity sample; see R9) than ByJcl (n = 3),
 > so the larger raw differentially-expressed-gene count in ByJcl (2,674 vs.
 > 298 genes at FDR < 0.05) partly reflects this power asymmetry rather than a
 > larger true biological response; the genome-wide correlation and interaction
 > test above, rather than the raw DEG counts, are the appropriate basis for
 > comparing response magnitude between substrains.
 
-### R4. Gene set enrichment analysis software and ranking metric
+### R4. Gene set enrichment results are reported by FDR/q-value, for every gene set tested
 
-[This paragraph is Methods-facing but is included here because it directly
-determines the Results reported in R5–R6. See
-`../Methods_rewrite_and_reviewer_response_notes.md` for the full proposed
-Methods paragraph; the sentence below is a compact Results-section
-cross-reference.]
+[Directly addresses R1-6's second point: the manuscript's stated
+significance criterion is FDR < 0.05, but the originally reported
+podocyte/integrin GSEA results were described by nominal p-value. This
+paragraph, plus the supplementary table it references, closes that gap.]
 
 > Gene set enrichment analysis was performed with the `fgsea` R package
 > (v1.24.0, preranked, multilevel algorithm, minimum/maximum gene set size
 > 5/500) against the Reactome collection (MSigDB M2:CP:REACTOME, 1,333 gene
 > sets; MSigDB release 2026.1.Mm) plus three podocyte-focused custom gene
-> sets, testing all gene sets jointly per comparison (1,336 sets total) with
-> Benjamini-Hochberg FDR correction applied across the full joint universe.
-> Genes were ranked by the DESeq2 Wald test statistic, a signed,
-> significance-weighted ranking (see Methods for the rationale for this
-> ranking choice over a magnitude-only fold-change ranking).
+> sets, testing all 1,336 gene sets jointly per comparison, with
+> Benjamini-Hochberg FDR correction applied across the full joint universe
+> (1,293 of 1,336 sets passed the minimum/maximum size filter and were
+> actually tested per comparison). Consistent with the FDR < 0.05 criterion
+> stated in our Methods, we report the BH-adjusted FDR/q-value — not the
+> nominal p-value — for every gene set discussed in the text, and provide the
+> complete result (nominal p, FDR, normalized enrichment score, and leading
+> edge genes) for all 1,293 tested gene sets, for all four primary
+> comparisons, in Table S_GSEA [`tables/TableS_GSEA_all_comparisons_canonical.xlsx`],
+> rather than for the six podocyte/integrin/ECM gene sets discussed in the
+> main text alone.
 
 ### R5. Reactome Integrin Signaling and Extracellular Matrix Organization are robustly enriched at Day 5
 
-> Under this ranking, the Reactome Integrin Signaling gene set (Fig. 6D) was
-> significantly enriched in ByJcl relative to AJcl at Day 5 post-adriamycin
-> (NES = +2.03, nominal P = 1.2 × 10⁻⁴, joint FDR = 9.1 × 10⁻⁴), closely
-> matching the originally reported statistics. This result was robust to
-> every configuration tested, including inclusion of the flagged low-purity
-> A-ADR1 sample (NES = +2.33 with A-ADR1 included) and the larger, related
-> Reactome Integrin Cell Surface Interactions gene set (NES = +2.17 to +2.38
-> across configurations, FDR ≤ 2.0 × 10⁻⁵ in all cases). The Extracellular
-> Matrix Organization gene set (Fig. 6C's theme) was similarly robust and was
-> in fact the single most consistently significant focal gene set in the
-> entire re-analysis, reaching FDR < 0.05 in every comparison and A1
-> configuration tested, including at baseline (NES = +2.28, FDR = 7.0 ×
-> 10⁻¹⁰) and in both within-substrain ADR-response comparisons (NES = +1.66
-> to +1.73, FDR ≤ 4.6 × 10⁻³).
+> Ranking by the DESeq2 Wald statistic, the Reactome Integrin Signaling gene
+> set (Fig. 6D) was significantly enriched in ByJcl relative to AJcl at Day 5
+> post-adriamycin (NES = +2.03, nominal P = 1.2 × 10⁻⁴, **FDR = 9.1 × 10⁻⁴**),
+> closely matching the originally reported statistics. This result was robust
+> to every configuration tested, including inclusion of the flagged
+> low-purity A-ADR1 sample (NES = +2.33, FDR = 4.9 × 10⁻⁵ with A-ADR1
+> included) and the larger, related Reactome Integrin Cell Surface
+> Interactions gene set (NES = +2.17 to +2.38 across configurations,
+> FDR ≤ 2.0 × 10⁻⁵ in all cases). The Extracellular Matrix Organization gene
+> set (Fig. 6C's theme) was similarly robust and was in fact the single most
+> consistently significant focal gene set in the entire re-analysis, reaching
+> FDR < 0.05 in every comparison and A1 configuration tested, including at
+> baseline (NES = +2.28, FDR = 7.0 × 10⁻¹⁰) and in both within-substrain
+> ADR-response comparisons (NES = +1.66 to +1.73, FDR ≤ 4.6 × 10⁻³).
 
 ### R6. The podocyte-ageing gene set (Fig. 6B) is sensitive to inclusion of the flagged low-purity sample
 
@@ -126,8 +192,8 @@ cross-reference.]
 > included. With the flagged low-purity sample (A-ADR1) excluded — the
 > manuscript's stated main-analysis configuration — this gene set was
 > enriched in the *opposite* direction from originally reported (NES = +1.93,
-> nominal P = 8.1 × 10⁻⁷, joint FDR = 9.5 × 10⁻⁶, i.e. higher, not lower, in
-> ByJcl). Including A-ADR1 reversed the sign again (NES = −2.04, joint
+> nominal P = 8.1 × 10⁻⁷, **FDR = 9.5 × 10⁻⁶**, i.e. higher, not lower, in
+> ByJcl). Including A-ADR1 reversed the sign again (NES = −2.04,
 > FDR = 1.1 × 10⁻⁶), matching the originally reported direction only when the
 > flagged sample is retained. Both configurations individually reach high
 > statistical confidence (FDR < 10⁻⁵); the instability is in which
@@ -155,7 +221,7 @@ cross-reference.]
 > same direction when A-ADR1 was included** (12-gene panel: NES = −1.87,
 > FDR = 0.020; 49-gene panel: NES = −1.87, FDR = 0.0071). The within-ByJcl
 > ADR-response comparison gave the single strongest gene-set result in the
-> entire re-analysis for the 49-gene panel (NES = −2.70, joint FDR =
+> entire re-analysis for the 49-gene panel (NES = −2.70, FDR =
 > 2.1 × 10⁻¹⁰, rank 11 of 1,293 gene sets tested genome-wide). Because these
 > two marker lists overlap substantially (11 of the 12 exclusive markers are
 > also members of the 49-gene panel), they should be understood as a full
@@ -165,10 +231,16 @@ cross-reference.]
 > identity loss in ByJcl at Day 5 as a robust finding of this dataset,
 > independent of the ageing-signature instability described in R6.
 
-### R8. Quality-control assessment of glomerular preparation purity across all sequenced samples
+### R8. Validation of ECM-related genes discussed in the text (R2-2)
 
-[New subsection, most naturally placed near the Methods/QC description of
-sample preparation, or as a short Results paragraph preceding R6.]
+> The four ECM-related genes specifically discussed in the text — *Serpine1*,
+> *Col4a1*, *Col4a2*, and *Loxl1* — were all significantly higher in ByJcl
+> relative to AJcl at Day 5 post-adriamycin (*Loxl1*: FDR = 4.9 × 10⁻¹²;
+> *Serpine1*: FDR = 1.7 × 10⁻⁹; *Col4a2*: FDR = 1.5 × 10⁻³; *Col4a1*:
+> FDR = 4.5 × 10⁻³; DESeq2 Wald test), directly confirming the direction
+> described in the text at the individual-gene level.
+
+### R9. Quality-control assessment of glomerular preparation purity across all sequenced samples
 
 > Because one AJcl Day-5 sample (A-ADR1) had been flagged for reduced
 > glomerular purity, we assessed relative tubular contamination across all 12
@@ -223,12 +295,11 @@ sample preparation, or as a short Results paragraph preceding R6.]
 > ranking metric reproduced the originally reported Integrin Signaling result
 > closely (R5), which a literal signed-log2-fold-change ranking did not. We
 > therefore used the Wald statistic as the ranking metric throughout this
-> re-analysis and recommend the Methods text be corrected accordingly (see
-> `../Methods_rewrite_and_reviewer_response_notes.md` for proposed replacement
-> text). This correction has two consequences that pull in opposite
-> directions: it strengthens confidence in the Integrin Signaling/ECM
-> Organization results (R5) but reinstates, rather than resolves, the sign
-> instability of the podocyte-ageing result (R6).
+> re-analysis and have corrected the Methods text accordingly (M1). This
+> correction has two consequences that pull in opposite directions: it
+> strengthens confidence in the Integrin Signaling/ECM Organization results
+> (R5) but reinstates, rather than resolves, the sign instability of the
+> podocyte-ageing result (R6).
 
 ### D2. The podocyte-ageing signature is not a robust basis for Fig. 6B, and the reported "data not shown" sensitivity check does not hold for this specific gene set
 
@@ -270,14 +341,14 @@ sample preparation, or as a short Results paragraph preceding R6.]
 
 ### D4. Bulk RNA-seq enrichment of a podocyte marker panel reflects the podocyte transcriptional program as a whole, not cell number specifically
 
-> [Recommended addition to the Fig. 6B legend and/or this paragraph, to
-> pre-empt a predictable reviewer question about bulk RNA-seq and cell-type
-> proportion — see `../README_analysis_log.md`, "Fig. 6B legend /
-> response-letter cell-composition caveat", for the exact suggested
-> sentence.] Karaiskos marker genes are podocyte-cluster-identifying genes
-> derived from single-cell data; in glomerulus-enriched bulk RNA-seq, a
-> negative enrichment score for this panel indicates relative attenuation of
-> the podocyte transcriptional program overall, but does not on its own
+[Recommended addition to the Fig. 6B legend and/or this paragraph, to
+pre-empt a predictable reviewer question about bulk RNA-seq and cell-type
+proportion.]
+
+> Karaiskos marker genes are podocyte-cluster-identifying genes derived from
+> single-cell data; in glomerulus-enriched bulk RNA-seq, a negative
+> enrichment score for this panel indicates relative attenuation of the
+> podocyte transcriptional program overall, but does not on its own
 > distinguish reduced podocyte number from reduced per-cell marker expression.
 > This bulk transcriptomic result should be interpreted alongside, and is
 > complementary to, the histological findings (WT1-positive cell counts per
@@ -289,7 +360,7 @@ sample preparation, or as a short Results paragraph preceding R6.]
 > Beyond the single previously flagged sample, extending the same
 > tubular-contamination assessment to all 12 sequenced samples identified a
 > second sample (A-Ctrl3, an untreated AJcl sample) with comparable elevated
-> tubular marker expression, which had not previously been flagged (R8). This
+> tubular marker expression, which had not previously been flagged (R9). This
 > sample's inclusion or exclusion did not change any conclusion of the
 > baseline substrain comparison in this dataset, so no revision to the
 > reported baseline analysis is required. We raise it nonetheless because it
