@@ -32,3 +32,12 @@ folder's much longer history.
   sign-flip and its non-robustness, the Karaiskos marker panel as a proposed
   Fig. 6B substitute, and the A1/A-Ctrl3 sample-purity QC findings. Every
   number cross-references the source table/figure in `../`.
+- `figures/Fig5B_Wt1_Nphs1_expression.{png,pdf}` (from
+  `scripts/21_Wt1_Nphs1_expression_panel.R`, DESeq2-normalized counts, no new
+  statistical model) — proposed Fig. 5B / Fig. 6A companion panel: per-sample
+  boxplot+jitter of Wt1 and Nphs1 expression across all 4 groups (AJcl-Ctrl,
+  ByJcl-Ctrl, AJcl-ADR, ByJcl-ADR), so the "no robust change" claim is
+  checkable against the raw expression distribution, not just a volcano-plot
+  label. A-ADR1 and A-Ctrl3 (both flagged for tubular contamination) are
+  shown as open triangles for transparency. Brackets annotate the
+  main-analysis FDR for each gene at each time point.
