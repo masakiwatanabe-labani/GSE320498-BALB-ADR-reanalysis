@@ -160,3 +160,26 @@ folder's much longer history.
   supports keeping "rather than a globally divergent injury program" in the
   manuscript text, with the minor, explicitly-stated exception of the
   Tpm2/Tpm4 pair — not an unqualified "zero shared annotation" claim.**
+- `figures/FigS_glomerular_purity_QC.{png,pdf}`,
+  `tables/TableS_purity_ratios.csv` (from
+  `scripts/28_glomerular_purity_QC_all12.R`, recomputes CPM directly from
+  `../tables/00_merged_counts.tsv` using the exact same marker definitions
+  as `18_A1_contamination_QC_figure.R`/`20_ACtrl3_contamination_and_
+  sensitivity_figure.R`, no new sequencing analysis) — **single combined
+  QC figure, all 12 samples in one panel**, superseding the previously
+  separate ADR-only/Ctrl-only purity panels so A-ADR1's outlier status is
+  visible against the full sample set at once. Podocyte:tubular marker-sum
+  CPM ratio (log scale), colored by group (A-Ctrl/B-Ctrl/A-ADR/B-ADR), grey
+  band = range of the other 11 samples, A-ADR1 highlighted in vermillion
+  with a bold "A1 (excluded), ratio=2.51" label; A-Ctrl3 separately labeled
+  "(retained)" so the figure cannot be read as implying it should also be
+  dropped. All 12 recomputed ratios matched the prior scripts' values
+  exactly (script halts if any mismatch is found — none were). A second
+  panel is a 6-tubular-marker x 12-sample heatmap with A-ADR1's column
+  outlined. One important correction versus the task's draft caption: the
+  fold-difference to the *next-lowest sample across all 12* is **1.8x**
+  (A-Ctrl3, 4.50), not 2.8x — the 2.8x figure that has been used elsewhere
+  in this project is A-ADR1 vs. the next-lowest *within the ADR group only*
+  (A-ADR2, 7.20); both are correct statements, but for different reference
+  sets, and the combined 12-sample figure/caption uses the true
+  all-samples comparison.
