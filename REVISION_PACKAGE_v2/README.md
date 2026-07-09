@@ -211,3 +211,26 @@ folder's much longer history.
   actual baseline FDR rather than labeling it "n.s.," and the caption states
   this explicitly rather than claiming a uniform "no baseline difference"
   across all 4 genes.
+- `figures/Figure5_volcano_baseline.{pdf,png}` (from
+  `scripts/30_Figure5_volcano_baseline_final.R`, reads
+  `../tables/DE_baseline_B_vs_A.tsv` verbatim, no new DE model) —
+  submission-final baseline volcano: EnhancedVolcano-style 4-category
+  coloring (NS / log2FC only / FDR only / FDR and log2FC), FDR=0.05 and
+  |log2FC|=1 threshold lines, "← higher in AJcl / higher in ByJcl →" axis
+  annotation, "total = 19,662 variables" footer. Wt1/Nphs1 always labeled
+  and visually distinguished (magenta triangle, own text color) per R1-5;
+  8 additional named high-effect genes (Oas1a, Oas1g, H2-Q6, Galk2, Ppp1r3a,
+  Nlrp1b, Tmem215, Glp1r) labeled as yellow diamonds. Confirmed: total=19,662
+  (matches canonical run, corrects the manuscript's mismatched Fig.5=13,064/
+  Fig.6A=13,278 "variables" figures — see `manuscript_values.md` items 1-4);
+  Wt1 (log2FC=+0.14, FDR=0.87) and Nphs1 (log2FC=+0.23, FDR=0.79) coordinates
+  match exactly; zero padj=NA genes labeled; zero forbidden (NA/n.s.)
+  top-|log2FC| genes labeled. Note: Fgf7 also qualifies as a top-effect-size,
+  significant, non-NA gene but was intentionally excluded per the exact
+  label list given (not auto-added). All fonts ≥9pt (converted via an exact
+  pt→mm helper, not eyeballed) — safely above the 8.5pt submission floor.
+  PDF confirmed genuinely vector (`cairo_pdf` device, no `/Image` XObject).
+  **Revised on request to drop numeric log2FC/FDR annotations from the gene
+  labels** (kept in the manuscript text and Table S1 instead, to avoid
+  on-figure redundancy) — labels now show gene name only; category coloring,
+  threshold lines, footer, and Wt1/Nphs1 emphasis all unchanged.
