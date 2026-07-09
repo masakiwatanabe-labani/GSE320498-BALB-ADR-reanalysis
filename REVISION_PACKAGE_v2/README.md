@@ -183,3 +183,31 @@ folder's much longer history.
   (A-ADR2, 7.20); both are correct statements, but for different reference
   sets, and the combined 12-sample figure/caption uses the true
   all-samples comparison.
+- **`ACtrl3_retention_justification.md`** — the specific numbers that justify
+  *retaining* A-Ctrl3 despite tubular contamination comparable in magnitude
+  to A-ADR1: genome-wide log2FC concordance (Pearson r=0.88), 0/6 focal
+  gene sets flip sign with A-Ctrl3 excluded, and every specifically-discussed
+  gene keeps the same significance-threshold call either way. States the
+  applied rule explicitly: exclude a flagged sample only if its inclusion
+  changes a reported conclusion (true for A-ADR1, false for A-Ctrl3), not
+  "exclude any sample with elevated contamination." Includes a drop-in
+  response-letter/Methods paragraph.
+- `figures/Figure7_ECM_genes_CPM.{pdf,png}`, `tables/TableS_ECM_genes_CPM.csv`
+  (from `scripts/29_Figure7_ECM_genes_CPM.R`, CPM computed directly from
+  `../tables/00_merged_counts.tsv`, same definition as the other CPM-based
+  QC figures; no prior "Figure7_ECM_genes_CPM" file existed anywhere in the
+  project before this script — checked first) — CPM of Serpine1, Loxl1,
+  Col4a1, Col4a2 (AJcl vs ByJcl, baseline and Day 5), 2x2 faceted panels,
+  mean±SEM bars with individual samples overlaid, A-ADR1 shown as a
+  separate orange triangle excluded from the Day-5 AJcl mean (n=2, matching
+  the main analysis). PDF confirmed genuinely vector (`cairo_pdf` device;
+  no embedded raster image; `pdfinfo` shows Producer=cairo, no `/Image`
+  XObject). All 4 Day-5 log2FC values matched the manuscript text exactly
+  (Serpine1 +1.84, Loxl1 +1.38, Col4a1 +0.97, Col4a2 +1.22). **Important
+  correction to the task's assumption:** not all 4 genes are non-significant
+  at baseline — Serpine1/Col4a1/Col4a2 are (FDR>0.45), but **Loxl1 is
+  already significantly elevated at baseline** (log2FC=+0.68, FDR=0.0052),
+  rising further by Day 5 (log2FC=+1.37); the figure annotates Loxl1's
+  actual baseline FDR rather than labeling it "n.s.," and the caption states
+  this explicitly rather than claiming a uniform "no baseline difference"
+  across all 4 genes.
