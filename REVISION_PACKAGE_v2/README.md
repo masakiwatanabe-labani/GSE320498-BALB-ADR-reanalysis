@@ -122,17 +122,41 @@ folder's much longer history.
   and package/session versions behind every row of `manuscript_values.md`.
 - `figures/FigS_ADR_response_concordance.png` — copied in from `../figures/`
   for self-containedness; Step 5 numbers re-derived fresh and match exactly.
-- **`tables/Supplementary_Tables_S1-S10.xlsx`** — the submission-ready
+- **`tables/Supplementary_Tables_S1-S11.xlsx`** — the submission-ready
   consolidated supplementary tables file (from
   `scripts/26_Supplementary_Tables_consolidated.R`, pure repackaging of
-  already-verified tables, no new analysis except where noted). 19 sheets:
-  a `TOC` sheet, then Table S1 (baseline top DE genes, 64 genes), S2-S5
-  (full DE results for all 4 primary comparisons, 19,662 genes each,
+  already-verified tables, no new analysis except where noted). 22 sheets:
+  a `TOC` sheet, then Table S1 (baseline top DE genes, 64 genes), **S2
+  (substrain x treatment interaction genes, n=24, + Reactome/GO BP ORA on
+  that list, 3 sub-sheets — table number fixed by the manuscript text)**,
+  S3-S6 (full DE results for all 4 primary comparisons, 19,662 genes each,
   underlying Fig. 5/6A and both within-substrain ADR-response comparisons),
-  S6 (canonical GSEA, all 1,293 tested gene sets x 4 comparisons, 5
-  sub-sheets), S7 (Fig. 6C ORA full results, 734 Reactome terms), S8 (A-ADR1
-  sensitivity, 3 sub-sheets), S9 (A-Ctrl3 sensitivity, 3 sub-sheets), S10
+  S7 (canonical GSEA, all 1,293 tested gene sets x 4 comparisons, 5
+  sub-sheets), S8 (Fig. 6C ORA full results, 734 Reactome terms), S9 (A-ADR1
+  sensitivity, 3 sub-sheets), S10 (A-Ctrl3 sensitivity, 3 sub-sheets), S11
   (gene-level ADR-response concordance between substrains). Every sheet
   carries a caption row stating its contrast/sign convention, source, and
   significance criterion. This is the single file to attach to the
-  manuscript submission for "supplementary tables."
+  manuscript submission for "supplementary tables." (Supersedes the earlier
+  `Supplementary_Tables_S1-S10.xlsx`, removed, which had a table-number
+  conflict with the manuscript text on "Table S2".)
+- `scripts/27_interaction_gene_pathway_coherence.R`,
+  `tables/TableS2_interaction_genes.csv`,
+  `tables/TableS_interaction_ORA_reactome.csv`,
+  `tables/TableS_interaction_ORA_GO_BP.csv`,
+  `logs/27_interaction_pathway_coherence.txt`, `logs/27_verdict_summary.txt`
+  — pathway-coherence check on the 24 substrain x treatment interaction
+  genes (reuses the existing canonical interaction model verbatim, no new
+  DE/interaction model fit; only new analysis = ORA on the fixed 24-gene
+  list). **Verdict: (A, borderline).** Reactome ORA: 2/67 terms significant
+  (BH<0.05), but both ("Smooth Muscle Contraction", "Striated Muscle
+  Contraction") are driven by the identical 2-gene pair (Tpm2/Tpm4,
+  paralogous tropomyosin genes) — a low bar for a 13-member term, not
+  evidence of a shared program. GO BP: 0/339 significant. 22 of 24 genes
+  (92%) belong to no significant term in either ontology. Only 1/24 genes
+  (H2-Q6) matches a known-polymorphic-locus name pattern, and only 2/24
+  show large pre-existing baseline divergence — not enough to suggest the
+  interaction signal is dominated by allele/mapping artifacts. **Conclusion:
+  supports keeping "rather than a globally divergent injury program" in the
+  manuscript text, with the minor, explicitly-stated exception of the
+  Tpm2/Tpm4 pair — not an unqualified "zero shared annotation" claim.**
