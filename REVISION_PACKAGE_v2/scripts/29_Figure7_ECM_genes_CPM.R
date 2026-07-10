@@ -128,13 +128,19 @@ bracket_df <- summary_df %>%
   summarise(y0 = max(mean_cpm + sem), .groups = "drop") %>%
   mutate(x_num = ifelse(timepoint == "Baseline", 1, 2),
          xmin = x_num - dodge_off, xmax = x_num + dodge_off,
-         y = y0 * 1.08, ytext = y0 * 1.16)
+         y = y0 * 1.10)
 bracket_df$padj <- ifelse(bracket_df$timepoint == "Baseline",
                            sapply(bracket_df$gene, function(g) baseline_de$padj[baseline_de$gene == as.character(g)]),
                            sapply(bracket_df$gene, function(g) d5_de$padj[d5_de$gene == as.character(g)]))
 bracket_df$star <- sig_star(bracket_df$padj)
+# "n.s." is wider/taller than "*"/"**"/"***" and sits right above the
+# bracket line by default (vjust=0.5 straddles the line) -- give it its own,
+# larger vjust so the label clears the line instead of overlapping it, and
+# a slightly smaller font so 3-4 characters don't crowd the narrow bracket span
+bracket_df$text_vjust <- ifelse(bracket_df$star == "n.s.", -0.7, -0.35)
+bracket_df$text_size <- ifelse(bracket_df$star == "n.s.", pt_mm(10), pt_mm(13))
 
-y_max_by_gene <- bracket_df %>% group_by(gene) %>% summarise(ymax_all = max(ytext) * 1.08, .groups = "drop")
+y_max_by_gene <- bracket_df %>% group_by(gene) %>% summarise(ymax_all = max(y) * 1.18, .groups = "drop")
 
 p <- ggplot(plot_df, aes(x = timepoint, y = cpm, fill = substrain)) +
   stat_summary(fun = mean, geom = "bar", position = position_dodge(width = 0.75),
@@ -146,10 +152,11 @@ p <- ggplot(plot_df, aes(x = timepoint, y = cpm, fill = substrain)) +
   geom_segment(data = bracket_df, aes(x = xmin, xend = xmax, y = y, yend = y), inherit.aes = FALSE, linewidth = 0.5) +
   geom_segment(data = bracket_df, aes(x = xmin, xend = xmin, y = y * 0.97, yend = y), inherit.aes = FALSE, linewidth = 0.5) +
   geom_segment(data = bracket_df, aes(x = xmax, xend = xmax, y = y * 0.97, yend = y), inherit.aes = FALSE, linewidth = 0.5) +
-  geom_text(data = bracket_df, aes(x = x_num, y = ytext, label = star), inherit.aes = FALSE,
-            size = pt_mm(13), fontface = "bold") +
+  geom_text(data = bracket_df, aes(x = x_num, y = y, label = star, vjust = text_vjust, size = text_size),
+            inherit.aes = FALSE, fontface = "bold") +
+  scale_size_identity() +
   geom_blank(data = y_max_by_gene, aes(x = 1, y = ymax_all), inherit.aes = FALSE) +
-  scale_y_continuous(expand = expansion(mult = c(0.02, 0.08))) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.1))) +
   labs(
     title = "ADR-induced upregulation of ECM/adhesion transcripts in ByJcl glomeruli",
     subtitle = "CPM (mean + SEM), AJcl vs ByJcl, baseline and Day 5 post-ADR\n(A-ADR1 excluded; n=3 per group except AJcl Day 5, n=2)",
