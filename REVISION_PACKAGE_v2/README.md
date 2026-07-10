@@ -234,3 +234,43 @@ folder's much longer history.
   labels** (kept in the manuscript text and Table S1 instead, to avoid
   on-figure redundancy) — labels now show gene name only; category coloring,
   threshold lines, footer, and Wt1/Nphs1 emphasis all unchanged.
+- **`figures/Figure6_combined.{pdf,png}`, `figures/Figure6A.{pdf,png}`,
+  `figures/Figure6B.{pdf,png}`, `figures/Figure6C.{pdf,png}`,
+  `figures/Figure6D.{pdf,png}`** (from `scripts/31_Figure6_combined_final.R`)
+  — submission-final Figure 6, all 4 panels from one canonical run
+  (19,662 tested genes throughout), fully replacing the original
+  ageing-set/edgeR-ORA/NES=+1.54 version:
+  - **(A)** Day-5 volcano (`DE_ADR_B_vs_A.tsv`, A1-excluded), same
+    4-category coloring/threshold-line/footer convention as Figure 5;
+    Wt1/Nphs1 + Serpine1/Loxl1/Col4a1/Col4a2 labeled, gene name only.
+  - **(B)** Karaiskos et al. 2018 podocyte-marker (TOP50, n=49) preranked
+    GSEA running-ES plot, **replacing the Tabula Muris Senis ageing set**.
+    Classic 3-track GSEA layout (ES curve / hit barcode / ranking-metric
+    strip, all vector-drawn, no rasterization) rebuilt in R from the
+    already-exported `tables/enrichment_curves/curve_KARAISKOS_TOP50_
+    ADR_B_vs_A.tsv` (no new fgsea run). Minimal in-figure annotation
+    (NES and FDR only, per spec); leading-edge genes moved to the caption.
+  - **(C)** Reactome ORA on the **DESeq2-derived** Day-5 DEG list (n=546,
+    replacing the edgeR-derived DEG list), background=19,662, from
+    `scripts/25_Fig6C_ORA_rerun_DESeq2_DEGs.R`'s output — shows only the
+    **7 significant (BH<0.05) ECM/collagen-pattern terms**; "Integrin cell
+    surface interactions" (BH p=0.057) correctly omitted as not significant
+    under ORA. Colorbar legend forced vector (`guide_colorbar(raster=FALSE)`)
+    rather than ggplot2's raster-by-default gradient.
+  - **(D)** Reactome Integrin Signaling (n=27) preranked GSEA, same 3-track
+    style as B, from `curve_INTEGRIN_SIGNALING.tsv`. **Old NES=+1.54/nominal
+    p=0.0235/q<0.001 values fully retired**; NES=+2.03/FDR=9.1e-4 used
+    throughout, matching the task spec exactly.
+  - **Consistency check** (`logs/31_Figure6_consistency_check.txt`): all 4
+    panels' underlying data confirmed to share the same 19,662-gene universe;
+    Panel A Wt1 (padj=0.0498) / Nphs1 (padj=0.0638) match spec; Panel D
+    NES/FDR match spec exactly. **One value correction:** Panel B's precise
+    canonical FDR is **5.25e-04** (matches the pre-existing
+    `Fig6_enrichment_KARAISKOS_TOP50.png` box exactly) — the task text's
+    "FDR = 5.3e-4" was a minor rounding overstatement, not reproduced.
+  - Panel tagging fixed to exactly 4 tags — (A)(B)(C)(D) on the 4 logical
+    panels only, not on GSEA panels' internal 3 tracks (required wrapping
+    each GSEA composite with `patchwork::wrap_elements()` before combining).
+  - All fonts ≥8.7pt (safely above the 8.5pt floor); all 5 PDFs confirmed
+    genuinely vector (`cairo_pdf`, no `/Image` XObject in any of them,
+    including the ORA colorbar).
