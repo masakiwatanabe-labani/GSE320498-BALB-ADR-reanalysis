@@ -3,16 +3,21 @@
 # Col4a2) discussed in the text, at baseline and Day 5, both substrains --
 # "no baseline difference -> ByJcl-specific rise at Day 5" at a glance.
 #
+# Plain publication-style bar graph (mean + SEM, no jittered individual
+# points, no A-ADR1 marker) per user request -- the earlier version's
+# per-sample dots and separately-flagged A-ADR1 triangle were judged too
+# elaborate for a main-text figure. A-ADR1 is dropped from this figure
+# entirely (not shown at all, not just excluded from the mean); it remains
+# visible, flagged, in TableS_ECM_genes_CPM.csv and in the dedicated QC
+# figure (FigS_glomerular_purity_QC.pdf) and Figure 6A volcano.
+#
 # CPM computed directly from tables/00_merged_counts.tsv (library-size CPM,
-# same definition as 18/20/28_*_QC*.R), all 12 samples. Day-5 AJcl group
-# shown with A-ADR1 as a distinct, excluded-from-mean point (matches the
-# main-analysis convention: A-ADR1 excluded from the n=2 AJcl Day-5 mean),
-# consistent with how 21_Wt1_Nphs1_expression_panel.R handled flagged
-# samples. Significance annotations (Day-5 FDR) are read directly from
+# same definition as 18/20/28_*_QC*.R), all 12 samples (A-ADR1 dropped before
+# plotting). Significance annotations (asterisks) are read directly from
 # DE_ADR_B_vs_A.tsv / DE_baseline_B_vs_A.tsv -- no new DE model.
 #
 # NOTE: no prior "Figure7_ECM_genes_CPM" file was found anywhere in the
-# project at the time this script was written (checked outputs/ and
+# project at the time this script was first written (checked outputs/ and
 # REVISION_PACKAGE/ and REVISION_PACKAGE_v2/ recursively) -- this is a new
 # figure, not a re-derivation of an existing one. CPM definition matches the
 # project's other CPM-based QC figures for consistency.
@@ -29,6 +34,8 @@ outdir_v2 <- file.path(outdir_main, "REVISION_PACKAGE/REVISION_PACKAGE_v2")
 fig_dir <- file.path(outdir_v2, "figures")
 tab_dir <- file.path(outdir_v2, "tables")
 log_dir <- file.path(outdir_v2, "logs")
+
+pt_mm <- function(pt) pt / 2.845276
 
 genes <- c("Serpine1", "Loxl1", "Col4a1", "Col4a2")
 
@@ -102,72 +109,82 @@ writeLines(check_lines, file.path(log_dir, "29_Figure7_value_check.txt"))
 cat(paste(check_lines, collapse = "\n"), "\n\n")
 
 # ---------------------------------------------------------------------------
-# figure
+# figure -- plain bar graph, mean + SEM, A-ADR1 dropped entirely
 # ---------------------------------------------------------------------------
-fmt_p <- function(p) {
-  ifelse(p < 0.001, formatC(p, format = "e", digits = 1), sprintf("%.3f", p))
-}
-ann_df <- data.frame(gene = factor(genes, levels = genes))
-ann_df$d5_padj <- sapply(genes, function(g) d5_de$padj[d5_de$gene == g])
-ann_df$base_padj <- sapply(genes, function(g) baseline_de$padj[baseline_de$gene == g])
-ann_df$d5_label <- sprintf("Day 5: FDR=%s%s", fmt_p(ann_df$d5_padj), ifelse(ann_df$d5_padj < 0.05, " *", ""))
-ann_df$base_label <- sprintf("Baseline: %s", ifelse(ann_df$base_padj < 0.05,
-                                                      sprintf("FDR=%s *", fmt_p(ann_df$base_padj)), "n.s."))
-y_max_by_gene <- long %>% filter(!is_A1) %>% group_by(gene) %>% summarise(ymax = max(cpm) * 1.15, .groups = "drop")
-ann_df <- merge(ann_df, y_max_by_gene, by = "gene")
+plot_df <- long %>% filter(!is_A1)   # A-ADR1 excluded from the figure altogether
 
-p <- ggplot(long %>% filter(!is_A1), aes(x = timepoint, y = cpm, fill = substrain)) +
-  stat_summary(fun = mean, geom = "bar", position = position_dodge(width = 0.75), width = 0.65, color = "black", linewidth = 0.4) +
-  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.75), width = 0.25, linewidth = 0.6) +
-  geom_point(aes(group = substrain), position = position_jitterdodge(jitter.width = 0.12, dodge.width = 0.75),
-             size = 2.4, shape = 21, color = "black", stroke = 0.5, alpha = 0.85) +
-  geom_point(data = long %>% filter(is_A1), aes(x = timepoint, y = cpm), inherit.aes = FALSE,
-             shape = 24, size = 3, fill = "#D55E00", color = "black", stroke = 0.9,
-             position = position_nudge(x = -0.19)) +
+sig_star <- function(p) {
+  ifelse(is.na(p), "", ifelse(p < 0.001, "***", ifelse(p < 0.01, "**", ifelse(p < 0.05, "*", "n.s."))))
+}
+
+dodge_off <- 0.75 / 4  # position_dodge(width = 0.75), 2 groups per x -> bar centers at +/- width/4
+
+summary_df <- plot_df %>%
+  group_by(gene, timepoint, substrain) %>%
+  summarise(mean_cpm = mean(cpm), sem = sd(cpm) / sqrt(n()), n = n(), .groups = "drop")
+
+bracket_df <- summary_df %>%
+  group_by(gene, timepoint) %>%
+  summarise(y0 = max(mean_cpm + sem), .groups = "drop") %>%
+  mutate(x_num = ifelse(timepoint == "Baseline", 1, 2),
+         xmin = x_num - dodge_off, xmax = x_num + dodge_off,
+         y = y0 * 1.08, ytext = y0 * 1.16)
+bracket_df$padj <- ifelse(bracket_df$timepoint == "Baseline",
+                           sapply(bracket_df$gene, function(g) baseline_de$padj[baseline_de$gene == as.character(g)]),
+                           sapply(bracket_df$gene, function(g) d5_de$padj[d5_de$gene == as.character(g)]))
+bracket_df$star <- sig_star(bracket_df$padj)
+
+y_max_by_gene <- bracket_df %>% group_by(gene) %>% summarise(ymax_all = max(ytext) * 1.08, .groups = "drop")
+
+p <- ggplot(plot_df, aes(x = timepoint, y = cpm, fill = substrain)) +
+  stat_summary(fun = mean, geom = "bar", position = position_dodge(width = 0.75),
+               width = 0.65, color = "black", linewidth = 0.45) +
+  stat_summary(fun.data = mean_se, geom = "errorbar", position = position_dodge(width = 0.75),
+               width = 0.22, linewidth = 0.6) +
   scale_fill_manual(values = c("AJcl" = "#8FB8DE", "ByJcl" = "#0072B2"), name = "Substrain") +
   facet_wrap(~gene, scales = "free_y", ncol = 2) +
-  geom_text(data = ann_df, aes(x = 1, y = ymax, label = base_label), inherit.aes = FALSE,
-            size = 4.2, hjust = 0.5, fontface = "italic") +
-  geom_text(data = ann_df, aes(x = 2, y = ymax, label = d5_label), inherit.aes = FALSE,
-            size = 4.2, hjust = 0.5, fontface = "bold") +
-  scale_y_continuous(expand = expansion(mult = c(0.03, 0.22))) +
+  geom_segment(data = bracket_df, aes(x = xmin, xend = xmax, y = y, yend = y), inherit.aes = FALSE, linewidth = 0.5) +
+  geom_segment(data = bracket_df, aes(x = xmin, xend = xmin, y = y * 0.97, yend = y), inherit.aes = FALSE, linewidth = 0.5) +
+  geom_segment(data = bracket_df, aes(x = xmax, xend = xmax, y = y * 0.97, yend = y), inherit.aes = FALSE, linewidth = 0.5) +
+  geom_text(data = bracket_df, aes(x = x_num, y = ytext, label = star), inherit.aes = FALSE,
+            size = pt_mm(13), fontface = "bold") +
+  geom_blank(data = y_max_by_gene, aes(x = 1, y = ymax_all), inherit.aes = FALSE) +
+  scale_y_continuous(expand = expansion(mult = c(0.02, 0.08))) +
   labs(
     title = "ADR-induced upregulation of ECM/adhesion transcripts in ByJcl glomeruli",
-    subtitle = paste0(
-      "CPM (mean ± SEM; individual samples overlaid), AJcl vs ByJcl, baseline and Day 5 post-ADR.\n",
-      "AJcl Day-5 mean/SEM excludes A-ADR1 (n=2; shown separately as an orange triangle, matching the main analysis)."
-    ),
+    subtitle = "CPM (mean + SEM), AJcl vs ByJcl, baseline and Day 5 post-ADR\n(A-ADR1 excluded; n=3 per group except AJcl Day 5, n=2)",
     x = NULL, y = "CPM"
   ) +
-  theme_bw(base_size = 17) +
+  theme_bw(base_size = 15) +
   theme(
-    plot.title = element_text(size = 16, face = "bold"),
-    plot.subtitle = element_text(size = 10.5, lineheight = 1.2),
-    axis.title.y = element_text(size = 16, face = "bold"),
-    axis.text.x = element_text(size = 13),
-    axis.text.y = element_text(size = 12),
-    strip.text = element_text(size = 15, face = "bold"),
-    legend.title = element_text(size = 13),
+    plot.title = element_text(size = 15.5, face = "bold"),
+    plot.subtitle = element_text(size = 10.5),
+    axis.title.y = element_text(size = 14.5, face = "bold"),
+    axis.text.x = element_text(size = 12.5),
+    axis.text.y = element_text(size = 11.5),
+    strip.text = element_text(size = 14, face = "bold"),
+    legend.title = element_text(size = 12.5),
     legend.text = element_text(size = 12),
     legend.position = "bottom"
   )
 
 for (ext in c("pdf", "png")) {
   fp <- file.path(fig_dir, paste0("Figure7_ECM_genes_CPM.", ext))
-  ggsave(fp, plot = p, width = 11, height = 9.5, device = if (ext == "pdf") cairo_pdf else ext, dpi = 300)
+  ggsave(fp, plot = p, width = 9, height = 7.5, device = if (ext == "pdf") cairo_pdf else ext, dpi = 300)
   cat("Saved:", fp, "\n")
 }
 
 caption <- paste0(
-  "ADR-induced upregulation of ECM/adhesion-related transcripts in ByJcl glomeruli. CPM (mean ± SEM; ",
-  "individual samples overlaid) of Serpine1, Loxl1, Col4a1, and Col4a2 in AJcl and ByJcl glomeruli at ",
-  "baseline and Day 5 after ADR. All four transcripts were significantly higher in ByJcl at Day 5 ",
+  "ADR-induced upregulation of ECM/adhesion-related transcripts in ByJcl glomeruli. CPM (mean + SEM) ",
+  "of Serpine1, Loxl1, Col4a1, and Col4a2 in AJcl and ByJcl glomeruli at baseline and Day 5 after ADR ",
+  "(A-ADR1 excluded for reduced glomerular purity; see FigS_glomerular_purity_QC.pdf; n=3 per group ",
+  "except AJcl Day 5, n=2). All four transcripts were significantly higher in ByJcl at Day 5 ",
   "(Serpine1 FDR = 1.7x10-9; Loxl1 FDR = 4.9x10-12; Col4a1 FDR = 4.5x10-3; Col4a2 FDR = 1.5x10-3; DESeq2, ",
-  "ByJcl vs AJcl, A-ADR1 excluded). At baseline, Serpine1, Col4a1, and Col4a2 showed no significant ",
-  "difference (all FDR>0.45); Loxl1 showed a small but statistically significant baseline elevation in ",
-  "ByJcl (log2FC=+0.68, FDR=0.0052) that increased further by Day 5 (log2FC=+1.37), and so is not purely ",
-  "a Day-5-specific onset. A-ADR1 (excluded from the main Day-5 analysis for reduced glomerular purity; ",
-  "see FigS_glomerular_purity_QC.pdf) is shown as a separate orange triangle, excluded from the plotted mean."
+  "ByJcl vs AJcl). At baseline, Serpine1, Col4a1, and Col4a2 showed no significant difference ",
+  "(all FDR>0.45); Loxl1 showed a small but statistically significant baseline elevation in ByJcl ",
+  "(log2FC=+0.68, FDR=0.0052) that increased further by Day 5 (log2FC=+1.37), and so is not purely a ",
+  "Day-5-specific onset. Brackets: * FDR<0.05, ** FDR<0.01, *** FDR<0.001, n.s. not significant ",
+  "(DESeq2 Wald test, ByJcl vs AJcl within timepoint)."
 )
 writeLines(caption, file.path(log_dir, "29_Figure7_caption_draft.txt"))
 cat("\n=== Figure caption (draft) ===\n", caption, "\n")
