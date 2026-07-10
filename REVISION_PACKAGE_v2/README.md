@@ -8,14 +8,18 @@ deliverables, the A1/A-Ctrl3 sensitivity checks, GSEA re-analysis, Fig. 6B
 replacement, etc. — see `../README_analysis_log.md` and `../MANIFEST.md` for
 that full history).
 
-**See also `../submission_supplementary/`** — the final, submission-numbered
-Supplementary Figures (S1-S6) and Tables (S1-S6) package, assembled as a
-sibling folder to this one (not nested inside it, since it draws on files
-from both `../` and here). Its `SUPPLEMENTARY_MANIFEST.txt` documents exactly
-which of the 12 requested items exist and which do not (4 of the 6 requested
-figures — SDS-PAGE gel, ROI overlay, body weight, WT1/NPHS1 two-way ANOVA —
-have no underlying source data anywhere in this project and were not
-fabricated).
+**See also `../submission_package/`** — the single consolidated folder for
+actual journal submission: `figures/` (Figure 5, 6 [combined + individual
+A-D panels], 7, renamed to submission convention, all vector PDF) plus
+`supplementary/` (the Supplementary Figures S1-S6 / Tables S1-S6 package,
+also assembled as `../submission_supplementary/`). Its
+`SUBMISSION_PACKAGE_MANIFEST.txt` is the top-level index and lists exactly
+what still needs to happen before submission (4 of the 6 requested
+Supplementary Figures — SDS-PAGE gel, ROI overlay, body weight, WT1/NPHS1
+two-way ANOVA — have no underlying source data anywhere in this project and
+were not fabricated; see that file and
+`submission_supplementary/SUPPLEMENTARY_MANIFEST.txt` for the full
+per-item detail, including reviewer-comment provenance for each).
 
 ## Layout
 
