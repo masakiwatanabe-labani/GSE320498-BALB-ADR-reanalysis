@@ -135,7 +135,8 @@ make_gsea_panel <- function(curve_file, hits_file, nes, fdr, gene_set_label, tit
   n_max <- max(curve$x, na.rm = TRUE)
 
   fdr_str <- formatC(fdr, format = "e", digits = 2)
-  ann_lines <- sprintf("NES = %+.2f\nFDR = %s", nes, fdr_str)
+  enriched_in <- ifelse(nes > 0, "ByJcl", "AJcl")
+  ann_lines <- sprintf("NES = %+.2f\nFDR = %s\nEnriched in %s", nes, fdr_str, enriched_in)
 
   # anchor the NES/FDR box to the plot's top-margin (expansion headroom),
   # not to curve data min/max -- robust regardless of curve shape/sign
@@ -145,7 +146,8 @@ make_gsea_panel <- function(curve_file, hits_file, nes, fdr, gene_set_label, tit
     geom_hline(yintercept = 0, color = "grey70", linewidth = 0.3) +
     geom_line(color = "#1B7837", linewidth = 0.9) +
     annotate("label", x = n_max * 0.6, y = Inf, vjust = 1.3,
-             label = ann_lines, size = pt_mm(12), fontface = "bold", hjust = 0) +
+             label = ann_lines, size = pt_mm(12), fontface = "bold", hjust = 0,
+             fill = ifelse(enriched_in == "ByJcl", "#FDECEC", "#E7EEF7")) +
     labs(title = title, y = "Enrichment\nscore (ES)") +
     scale_y_continuous(expand = expansion(mult = c(0.08, 0.22))) +
     theme_bw(base_size = 13.5) +
@@ -175,6 +177,10 @@ make_gsea_panel <- function(curve_file, hits_file, nes, fdr, gene_set_label, tit
     geom_rect(aes(xmin = xmin, xmax = xmax, ymin = 0, ymax = 1, fill = stat)) +
     scale_fill_gradient2(low = "#08519C", mid = "white", high = "#A50026", midpoint = 0,
                           limits = c(-max_abs_stat, max_abs_stat), guide = "none") +
+    annotate("text", x = n_max * 0.015, y = 0.5, hjust = 0, vjust = 0.5,
+             label = "← higher in ByJcl", size = pt_mm(9), fontface = "bold", color = "white") +
+    annotate("text", x = n_max * 0.985, y = 0.5, hjust = 1, vjust = 0.5,
+             label = "higher in AJcl →", size = pt_mm(9), fontface = "bold", color = "white") +
     scale_x_continuous(limits = c(0, n_max), expand = c(0, 0)) +
     scale_y_continuous(breaks = NULL, expand = c(0, 0)) +
     labs(x = "Rank in ordered gene list\n(DESeq2 Wald statistic, Day 5 ADR ByJcl vs. AJcl)", y = NULL) +
@@ -223,9 +229,14 @@ check <- c(check, "",
 
 parse_ratio <- function(x) sapply(strsplit(x, "/"), function(v) as.numeric(v[1]) / as.numeric(v[2]))
 ecm_ora_sig$GeneRatioNum <- parse_ratio(ecm_ora_sig$GeneRatio)
-ecm_ora_sig$Description <- factor(ecm_ora_sig$Description, levels = rev(ecm_ora_sig$Description[order(ecm_ora_sig$GeneRatioNum)]))
+# wrap long Reactome term names onto 2 lines so the y-axis category labels
+# don't force the whole panel wide (longest term is 60 characters unwrapped)
+ecm_ora_sig$Description_wrapped <- vapply(ecm_ora_sig$Description,
+  function(x) paste(strwrap(x, width = 26), collapse = "\n"), character(1))
+level_order <- rev(ecm_ora_sig$Description_wrapped[order(ecm_ora_sig$GeneRatioNum)])
+ecm_ora_sig$Description_wrapped <- factor(ecm_ora_sig$Description_wrapped, levels = level_order)
 
-panelC <- ggplot(ecm_ora_sig, aes(x = GeneRatioNum, y = Description)) +
+panelC <- ggplot(ecm_ora_sig, aes(x = GeneRatioNum, y = Description_wrapped)) +
   geom_point(aes(size = Count, color = p.adjust)) +
   scale_color_viridis_c(option = "viridis", direction = -1, name = "BH-adj.\np", trans = "log10",
                          guide = guide_colorbar(raster = FALSE, nbin = 20, frame.colour = "black", frame.linewidth = 0.3, ticks.colour = "black")) +
@@ -236,7 +247,8 @@ panelC <- ggplot(ecm_ora_sig, aes(x = GeneRatioNum, y = Description)) +
   theme_bw(base_size = 13.5) +
   theme(plot.title = element_text(size = 14.5, face = "bold"),
         plot.subtitle = element_text(size = 10.5),
-        axis.title.x = element_text(size = 14, face = "bold"), axis.text.y = element_text(size = 11),
+        axis.title.x = element_text(size = 14, face = "bold"),
+        axis.text.y = element_text(size = 11, lineheight = 0.85),
         axis.text.x = element_text(size = 11), legend.text = element_text(size = 11),
         legend.title = element_text(size = 11))
 
@@ -256,7 +268,7 @@ for (nm in c("panelA", "panelB", "panelC", "panelD")) {
   tag <- toupper(substr(nm, 6, 6))
   fp_pdf <- file.path(fig_dir, paste0("Figure6", tag, ".pdf"))
   fp_png <- file.path(fig_dir, paste0("Figure6", tag, ".png"))
-  w <- if (tag %in% c("B", "D")) 8.5 else if (tag == "C") 11 else 10
+  w <- if (tag %in% c("B", "D")) 8.5 else if (tag == "C") 9 else 10
   h <- if (tag %in% c("B", "D")) 7 else 7
   ggsave(fp_pdf, plot = p, width = w, height = h, device = cairo_pdf)
   ggsave(fp_png, plot = p, width = w, height = h, dpi = 300)
