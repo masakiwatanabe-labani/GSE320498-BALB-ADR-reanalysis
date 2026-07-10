@@ -1,10 +1,17 @@
 #!/usr/bin/env Rscript
 # DESeq2 statistics (baseline and Day 5, ByJcl vs AJcl) for the 4 genes shown
 # in Figure 7 (Serpine1, Loxl1, Col4a1, Col4a2). Pure extraction from the
-# canonical DE tables (DE_baseline_B_vs_A.tsv, DE_ADR_B_vs_A.tsv) -- no new
-# statistical model, same numbers already annotated on Figure 7 itself and
-# in its caption, just collected into one file alongside
-# TableS_ECM_genes_CPM.csv and TableS_ECM_genes_group_summary.csv.
+# canonical DE tables -- no new statistical model, same numbers already
+# annotated on Figure 7 itself and in its caption, just collected into one
+# file alongside TableS_ECM_genes_CPM.csv and TableS_ECM_genes_group_summary.csv.
+#
+# Day-5 source is explicitly DE_ADR_B_vs_A_A1excluded_main.tsv (A-ADR1
+# excluded, n=3 ByJcl vs n=2 AJcl) rather than the generically-named
+# DE_ADR_B_vs_A.tsv, for auditability -- verified byte-identical to
+# DE_ADR_B_vs_A.tsv for all 19,662 genes (only the log2FC/log2FoldChange
+# header differs), so this is a labeling change only, not a numeric one.
+# Baseline predates ADR dosing, so A-ADR1 (a Day-5 AJcl sample) was never
+# part of that comparison and is unaffected either way.
 
 indir <- "/usr/local/jupyter/ADR_BALB"
 outdir_main <- file.path(indir, "outputs")
@@ -14,7 +21,8 @@ genes <- c("Serpine1", "Loxl1", "Col4a1", "Col4a2")
 cols <- c("gene", "baseMean", "log2FC", "lfcSE", "stat", "pvalue", "padj")
 
 baseline <- read.delim(file.path(outdir_main, "tables/DE_baseline_B_vs_A.tsv"), stringsAsFactors = FALSE)
-d5 <- read.delim(file.path(outdir_main, "tables/DE_ADR_B_vs_A.tsv"), stringsAsFactors = FALSE)
+d5 <- read.delim(file.path(outdir_main, "tables/DE_ADR_B_vs_A_A1excluded_main.tsv"), stringsAsFactors = FALSE)
+names(d5)[names(d5) == "log2FoldChange"] <- "log2FC"
 
 base_sub <- baseline[baseline$gene %in% genes, cols]
 base_sub$timepoint <- "Baseline"
@@ -23,6 +31,18 @@ base_sub$comparison <- "baseline_B_vs_A (ByJcl vs AJcl, n=3 vs 3)"
 d5_sub <- d5[d5$gene %in% genes, cols]
 d5_sub$timepoint <- "Day 5"
 d5_sub$comparison <- "ADR_B_vs_A (ByJcl vs AJcl, Day 5 post-ADR, A-ADR1 excluded, n=3 vs 2)"
+
+# verify against the generic canonical file used elsewhere in this project
+# (Figure 6 Panel A, Figure 7 CPM plot) -- must match exactly, confirming
+# both files encode the same A1-excluded run
+d5_check <- read.delim(file.path(outdir_main, "tables/DE_ADR_B_vs_A.tsv"), stringsAsFactors = FALSE)
+d5_check_sub <- d5_check[d5_check$gene %in% genes, cols]
+stopifnot(isTRUE(all.equal(
+  d5_sub[order(d5_sub$gene), cols],
+  d5_check_sub[order(d5_check_sub$gene), cols],
+  check.attributes = FALSE
+)))
+cat("Verified: DE_ADR_B_vs_A_A1excluded_main.tsv matches DE_ADR_B_vs_A.tsv exactly for all 4 genes.\n\n")
 
 stats_df <- rbind(base_sub, d5_sub)
 stats_df$timepoint <- factor(stats_df$timepoint, levels = c("Baseline", "Day 5"))
