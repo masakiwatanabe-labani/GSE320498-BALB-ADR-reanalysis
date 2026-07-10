@@ -84,8 +84,8 @@ d5_hi <- d5[d5$gene %in% ecm_label, ]
 d5_always <- d5[d5$gene %in% always_label, ]
 
 d5_always_lbl <- d5[d5$gene %in% always_label, ]; d5_always_lbl <- d5_always_lbl[order(d5_always_lbl$gene), ]
-d5_always_lbl$nudge_x <- ifelse(d5_always_lbl$gene == "Wt1", -4.8, 4.2)
-d5_always_lbl$nudge_y <- c(7, 11)
+d5_always_lbl$nudge_x <- ifelse(d5_always_lbl$gene == "Wt1", -5.6, 4.8)
+d5_always_lbl$nudge_y <- c(8, 12.5)
 d5_always_lbl$text_color <- "#9B4A73"
 d5_hi_lbl <- d5[d5$gene %in% ecm_label, ]
 d5_hi_lbl$nudge_x <- 0; d5_hi_lbl$nudge_y <- 0
@@ -106,24 +106,24 @@ panelA <- ggplot(d5, aes(x = log2FC, y = negLog10FDR)) +
   ggrepel::geom_text_repel(
     data = d5_labels_all, aes(label = point_label, colour = I(text_color), segment.colour = I(text_color)),
     nudge_x = d5_labels_all$nudge_x, nudge_y = d5_labels_all$nudge_y,
-    size = pt_mm(11.5), fontface = "bold", max.overlaps = Inf, box.padding = 1.0, point.padding = 0.55,
-    min.segment.length = 0, segment.size = 0.35, force = 14, force_pull = 0.2, max.time = 5, max.iter = 60000, seed = 20260220
+    size = pt_mm(14), fontface = "bold", max.overlaps = Inf, box.padding = 1.15, point.padding = 0.6,
+    min.segment.length = 0, segment.size = 0.35, force = 17, force_pull = 0.2, max.time = 5, max.iter = 60000, seed = 20260220
   ) +
-  annotate("text", x = x_range_A[1], y = -Inf, label = "← higher in AJcl", hjust = 0, vjust = -0.6, size = pt_mm(10.5), fontface = "italic", color = "grey30") +
-  annotate("text", x = x_range_A[2], y = -Inf, label = "higher in ByJcl →", hjust = 1, vjust = -0.6, size = pt_mm(10.5), fontface = "italic", color = "grey30") +
+  annotate("text", x = x_range_A[1], y = -Inf, label = "← higher in AJcl", hjust = 0, vjust = -0.6, size = pt_mm(13), fontface = "italic", color = "grey30") +
+  annotate("text", x = x_range_A[2], y = -Inf, label = "higher in ByJcl →", hjust = 1, vjust = -0.6, size = pt_mm(13), fontface = "italic", color = "grey30") +
   scale_y_continuous(expand = expansion(mult = c(0.06, 0.1))) +
-  scale_x_continuous(expand = expansion(mult = c(0.07, 0.07))) +
+  scale_x_continuous(expand = expansion(mult = c(0.08, 0.08))) +
   labs(title = "Day 5 post-ADR: BALB/cByJcl vs BALB/cAJcl (A-ADR1 excluded)",
        x = expression(log[2]~"FC (ByJcl vs AJcl)"), y = expression(-log[10]~"(FDR)"),
        caption = sprintf("total = %s variables", format(n_total, big.mark = ","))) +
   guides(color = guide_legend(nrow = 2, override.aes = list(size = 2.6)),
          fill = guide_legend(nrow = 2, override.aes = list(size = 3.2))) +
-  theme_bw(base_size = 13.5) +
-  theme(plot.title = element_text(size = 14.5, face = "bold"),
-        plot.caption = element_text(size = 10.5, hjust = 0, face = "italic"),
-        axis.title = element_text(size = 14, face = "bold"), axis.text = element_text(size = 11.5),
-        legend.text = element_text(size = 11), legend.title = element_text(size = 11),
-        legend.key.size = unit(0.45, "cm"),
+  theme_bw(base_size = 16) +
+  theme(plot.title = element_text(size = 17, face = "bold"),
+        plot.caption = element_text(size = 12.5, hjust = 0, face = "italic"),
+        axis.title = element_text(size = 17, face = "bold"), axis.text = element_text(size = 14),
+        legend.text = element_text(size = 13), legend.title = element_text(size = 13),
+        legend.key.size = unit(0.55, "cm"),
         legend.position = "bottom", legend.margin = margin(0, 0, 0, 0), legend.box = "vertical")
 
 # ============================================================================
@@ -146,13 +146,13 @@ make_gsea_panel <- function(curve_file, hits_file, nes, fdr, gene_set_label, tit
     geom_hline(yintercept = 0, color = "grey70", linewidth = 0.3) +
     geom_line(color = "#1B7837", linewidth = 0.9) +
     annotate("label", x = n_max * 0.6, y = Inf, vjust = 1.3,
-             label = ann_lines, size = pt_mm(12), fontface = "bold", hjust = 0,
+             label = ann_lines, size = pt_mm(15), fontface = "bold", hjust = 0,
              fill = ifelse(enriched_in == "ByJcl", "#FDECEC", "#E7EEF7")) +
     labs(title = title, y = "Enrichment\nscore (ES)") +
-    scale_y_continuous(expand = expansion(mult = c(0.08, 0.22))) +
-    theme_bw(base_size = 13.5) +
-    theme(plot.title = element_text(size = 14.5, face = "bold"),
-          axis.title.y = element_text(size = 12.5, face = "bold"), axis.text.y = element_text(size = 11),
+    scale_y_continuous(expand = expansion(mult = c(0.08, 0.26))) +
+    theme_bw(base_size = 16) +
+    theme(plot.title = element_text(size = 17, face = "bold"),
+          axis.title.y = element_text(size = 15, face = "bold"), axis.text.y = element_text(size = 13),
           axis.title.x = element_blank(), axis.text.x = element_blank(), axis.ticks.x = element_blank(),
           plot.margin = margin(4, 4, 0, 4))
 
@@ -161,7 +161,7 @@ make_gsea_panel <- function(curve_file, hits_file, nes, fdr, gene_set_label, tit
     scale_x_continuous(limits = c(0, n_max)) +
     scale_y_continuous(breaks = NULL) +
     labs(y = NULL) +
-    theme_void(base_size = 13.5) +
+    theme_void(base_size = 16) +
     theme(axis.text = element_blank(), plot.margin = margin(0, 4, 0, 4),
           panel.border = element_rect(color = "grey40", fill = NA, linewidth = 0.3))
 
@@ -178,17 +178,17 @@ make_gsea_panel <- function(curve_file, hits_file, nes, fdr, gene_set_label, tit
     scale_fill_gradient2(low = "#08519C", mid = "white", high = "#A50026", midpoint = 0,
                           limits = c(-max_abs_stat, max_abs_stat), guide = "none") +
     annotate("text", x = n_max * 0.015, y = 0.5, hjust = 0, vjust = 0.5,
-             label = "← higher in ByJcl", size = pt_mm(9), fontface = "bold", color = "white") +
+             label = "← higher in ByJcl", size = pt_mm(11), fontface = "bold", color = "white") +
     annotate("text", x = n_max * 0.985, y = 0.5, hjust = 1, vjust = 0.5,
-             label = "higher in AJcl →", size = pt_mm(9), fontface = "bold", color = "white") +
+             label = "higher in AJcl →", size = pt_mm(11), fontface = "bold", color = "white") +
     scale_x_continuous(limits = c(0, n_max), expand = c(0, 0)) +
     scale_y_continuous(breaks = NULL, expand = c(0, 0)) +
     labs(x = "Rank in ordered gene list\n(DESeq2 Wald statistic, Day 5 ADR ByJcl vs. AJcl)", y = NULL) +
-    theme_void(base_size = 13.5) +
-    theme(axis.title.x = element_text(size = 10.5, margin = margin(t = 3)),
+    theme_void(base_size = 16) +
+    theme(axis.title.x = element_text(size = 12.5, margin = margin(t = 3)),
           plot.margin = margin(0, 4, 4, 4))
 
-  combined <- p_es / p_hits / p_rank + plot_layout(heights = c(6, 0.7, 1))
+  combined <- p_es / p_hits / p_rank + plot_layout(heights = c(6, 0.9, 1.3))
   combined
 }
 
@@ -244,23 +244,23 @@ panelC <- ggplot(ecm_ora_sig, aes(x = GeneRatioNum, y = Description_wrapped)) +
   labs(title = "Reactome ORA: significant ECM/collagen terms",
        subtitle = "DESeq2-derived DEGs, padj<0.05, n=546",
        x = "GeneRatio", y = NULL) +
-  theme_bw(base_size = 13.5) +
-  theme(plot.title = element_text(size = 14.5, face = "bold"),
-        plot.subtitle = element_text(size = 10.5),
-        axis.title.x = element_text(size = 14, face = "bold"),
-        axis.text.y = element_text(size = 11, lineheight = 0.85),
-        axis.text.x = element_text(size = 11), legend.text = element_text(size = 11),
-        legend.title = element_text(size = 11))
+  theme_bw(base_size = 16) +
+  theme(plot.title = element_text(size = 17, face = "bold"),
+        plot.subtitle = element_text(size = 12.5),
+        axis.title.x = element_text(size = 17, face = "bold"),
+        axis.text.y = element_text(size = 13, lineheight = 0.82),
+        axis.text.x = element_text(size = 13), legend.text = element_text(size = 13),
+        legend.title = element_text(size = 13))
 
 # ============================================================================
 # combine, tag panels, save
 # ============================================================================
 combined <- (panelA | patchwork::wrap_elements(panelB)) / (panelC | patchwork::wrap_elements(panelD)) +
   plot_annotation(tag_levels = "A") &
-  theme(plot.tag = element_text(size = 17, face = "bold"))
+  theme(plot.tag = element_text(size = 20, face = "bold"))
 
-ggsave(file.path(fig_dir, "Figure6_combined.pdf"), plot = combined, width = 17, height = 13.5, device = cairo_pdf)
-ggsave(file.path(fig_dir, "Figure6_combined.png"), plot = combined, width = 17, height = 13.5, dpi = 300)
+ggsave(file.path(fig_dir, "Figure6_combined.pdf"), plot = combined, width = 19.5, height = 15.5, device = cairo_pdf)
+ggsave(file.path(fig_dir, "Figure6_combined.png"), plot = combined, width = 19.5, height = 15.5, dpi = 300)
 cat("Saved: Figure6_combined.pdf/png\n")
 
 for (nm in c("panelA", "panelB", "panelC", "panelD")) {
@@ -268,8 +268,8 @@ for (nm in c("panelA", "panelB", "panelC", "panelD")) {
   tag <- toupper(substr(nm, 6, 6))
   fp_pdf <- file.path(fig_dir, paste0("Figure6", tag, ".pdf"))
   fp_png <- file.path(fig_dir, paste0("Figure6", tag, ".png"))
-  w <- if (tag %in% c("B", "D")) 8.5 else if (tag == "C") 9 else 10
-  h <- if (tag %in% c("B", "D")) 7 else 7
+  w <- if (tag %in% c("B", "D")) 9.5 else if (tag == "C") 10 else 11.5
+  h <- if (tag %in% c("B", "D")) 8 else 8
   ggsave(fp_pdf, plot = p, width = w, height = h, device = cairo_pdf)
   ggsave(fp_png, plot = p, width = w, height = h, dpi = 300)
   cat("Saved:", fp_pdf, "/", fp_png, "\n")
