@@ -3,3 +3,15 @@
 .DS_Store
 __pycache__/
 *.pyc
+
+# Generated outputs -- not tracked in this code-only repository (see README.md).
+# Kept locally / archived separately (Zenodo); regenerable from scripts/.
+/figures/
+/tables/
+/logs/
+/submission_package/
+/submission_supplementary/
+/ZENODO_MANIFEST.txt
+/REVISION_PACKAGE_v2/figures/
+/REVISION_PACKAGE_v2/logs/
+/REVISION_PACKAGE_v2/tables/
