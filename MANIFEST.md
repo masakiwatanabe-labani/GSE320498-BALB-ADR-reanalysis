@@ -1,5 +1,12 @@
 # Revision package manifest
 
+> **Note (this repository):** this manifest describes the full reviewer-response
+> package, including the `figures/`, `tables/`, and `logs/` folders it was
+> originally written for. **This code-only GitHub repository does not include
+> those folders** — see the top-level `README.md` for why. Everything below
+> that refers to `figures/*`, `tables/*`, or `logs/*` describes output that the
+> `scripts/` in this repository regenerate, not files present here.
+
 Everything needed for the reviewer response, consolidated into this one
 folder. Start with `README_analysis_log.md` — it is the full analysis log and
 the index of everything else here.
