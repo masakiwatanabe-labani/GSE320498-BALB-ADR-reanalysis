@@ -25,6 +25,11 @@ alongside the code.
   the scripts depend on (podocyte marker panel from Karaiskos et al. 2018,
   J Am Soc Nephrol 29:2060-2068); see `Karaiskos_geneset_provenance.md` for
   its full sourcing record.
+- `histology/od_pipeline.py` — separate, independent pipeline: automated
+  glomerular ROI detection and NPHS1 (nephrin) IHC DAB optical-density
+  quantification from histology images (not part of the RNA-seq re-analysis
+  above). See `histology/README.md` for its relation to Supplementary
+  Figures S2/S5.
 - Top-level `.md` files — the analysis log, methods rewrite proposal,
   reviewer-response material, and verification write-ups. See
   `README_analysis_log.md` first; `MANIFEST.md` is the original full-package
